@@ -42,7 +42,7 @@ THEME = "/home/savvas-mint/pelican-themes/pelican-bootstrap3"
 
 # Disqus and Google Analytics
 
-# DISQUS_SITENAME = "savvasblog"
+DISQUS_SITENAME = "savvasblog"
 # DISQUS_NO_ID = True
 
 GOOGLE_ANALYTICS = "UA-50819746-1"
