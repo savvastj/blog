@@ -1,45 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Savvas Tjortjoglou</title><link>/</link><description></description><atom:link href="/feeds/savvas-tjortjoglou.rss.xml" rel="self"></atom:link><lastBuildDate>Mon, 06 Apr 2015 07:00:00 -0400</lastBuildDate><item><title>Playing around with Pelican, Plugins, and Markdown</title><link>/playing-around-with-pelican-plugins-and-markdown.html</link><description>&lt;p&gt;&lt;center&gt;&lt;img src="http://t0.gstatic.com/images?q=tbn:ANd9GcQ7FPifj2hTdhQaRZ1FDuCkpK-jOR04ns7W4f71Kbo8ebNLC1rS" alt="[40 [22]] []" class="[Pelican]" title="[40 [22]] []"&gt;&lt;/center&gt; &lt;/p&gt;
-&lt;p&gt;I'm just testing out the variety of plugins I've installed for this blog as well as playing around with Markdown syntax.&lt;/p&gt;
-&lt;p&gt;I've added the summary and liquid tags plugins. &lt;/p&gt;
-&lt;p&gt;I could also use footnotes using markdown syntax.&lt;sup id="fnref:1"&gt;&lt;a class="footnote-ref" href="#fn:1" rel="footnote"&gt;1&lt;/a&gt;&lt;/sup&gt;  However the navbar blocks the sentence when I jump back from the footnote.  Not sure how I will fix that or if I will.&lt;/p&gt;
-
-
-&lt;h1&gt;Embedding Youtube and Vimeo Videos Using Liquid Tag Plugin&lt;/h1&gt;
-&lt;h2&gt;Youtube&lt;/h2&gt;
-&lt;p&gt;I'll embed a youtube video with the following:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;literal&lt;/span&gt; &lt;span class="n"&gt;youtube&lt;/span&gt; &lt;span class="n"&gt;vwC1rhjzmRg&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;width&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;height&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;And here it is:&lt;/p&gt;
-&lt;p&gt;&lt;div class="videobox"&gt;
-                &lt;iframe width="640" height="390"
-                    src='https://www.youtube.com/embed/vwC1rhjzmRg'
-                    frameborder='0' webkitAllowFullScreen mozallowfullscreen
-                    allowFullScreen&gt;
-                &lt;/iframe&gt;
-            &lt;/div&gt;&lt;/p&gt;
-&lt;h2&gt;Vimeo&lt;/h2&gt;
-&lt;p&gt;Now let's try it with vimeo and centered: &lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;center&amp;gt;&lt;/span&gt;{% literal vimeo 14912890 &lt;span class="cp"&gt;[&lt;/span&gt;&lt;span class="nb"&gt;width&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt; &lt;span class="cp"&gt;[&lt;/span&gt;&lt;span class="nb"&gt;height&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt; %}&lt;span class="nt"&gt;&amp;lt;/center&amp;gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;&lt;center&gt;&lt;div class="videobox"&gt;
-                &lt;iframe
-                    src="//player.vimeo.com/video/14912890?title=0&amp;amp;byline=0&amp;amp;portrait=0"
-                    width="640" height="390" frameborder="0"
-                    webkitAllowFullScreen mozallowfullscreen allowFullScreen&gt;
-                &lt;/iframe&gt;
-            &lt;/div&gt;&lt;/center&gt;&lt;/p&gt;
-&lt;h3&gt;Favorite GIF of the playoffs&lt;/h3&gt;
-&lt;p&gt;&lt;img src="https://espngrantland.files.wordpress.com/2014/05/lance-blowin-cutoff-on-the-eye-contact.gif" alt="[width [height]] []" class="[Lance]" title="[width [height]] []"&gt;&lt;/p&gt;
-&lt;div class="footnote"&gt;
-&lt;hr /&gt;
-&lt;ol&gt;
-&lt;li id="fn:1"&gt;
-&lt;p&gt;Like this&amp;#160;&lt;a class="footnote-backref" href="#fnref:1" rev="footnote" title="Jump back to footnote 1 in the text"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Savvas Tjortjoglou</dc:creator><pubDate>Mon, 06 Apr 2015 07:00:00 -0400</pubDate><guid>tag:,2015-04-06:playing-around-with-pelican-plugins-and-markdown.html</guid><category>Python</category><category>Pelican</category><category>Plugins</category></item></channel></rss>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Savvas Tjortjoglou</title><link>/</link><description></description><atom:link href="/feeds/savvas-tjortjoglou.rss.xml" rel="self"></atom:link><lastBuildDate>Sun, 05 Apr 2015 08:30:00 -0400</lastBuildDate><item><title>Hello World!</title><link>/hello-world.html</link><description>&lt;p&gt;&lt;center&gt;&lt;img src="http://t0.gstatic.com/images?q=tbn:ANd9GcQ7FPifj2hTdhQaRZ1FDuCkpK-jOR04ns7W4f71Kbo8ebNLC1rS" alt="[40 [22]] []" class="[Pelican]" title="[40 [22]] []"&gt;&lt;/center&gt; &lt;/p&gt;
+&lt;p&gt;My first Post! Finally got a blog up and running using Pelican. I will be writing about a bunch of stuff about sports, politics, pop culture, programming, data science, or whatever comes to mind.  &lt;/p&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Savvas Tjortjoglou</dc:creator><pubDate>Sun, 05 Apr 2015 08:30:00 -0400</pubDate><guid>tag:,2015-04-05:hello-world.html</guid><category>Pelican</category></item></channel></rss>
