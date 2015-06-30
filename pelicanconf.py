@@ -29,8 +29,8 @@ TRANSLATION_FEED_ATOM = None
           # ('Grantland', 'http://grantland.com/'),)
 
 # Social widget
-SOCIAL = (('Twitter', 'http://twitter.com/savvas_91'),
-          ('Github', 'http://github.com/savvastj'),)
+# SOCIAL = (('Twitter', 'http://twitter.com/savvas_91'),
+#           ('Github', 'http://github.com/savvastj'),)
 
 DEFAULT_PAGINATION = 5
 
@@ -38,7 +38,7 @@ DISPLAY_CATEGORIES_ON_MENU = False
 
 # Uncomment following line if you want document-relative URLs when developing
 #RELATIVE_URLS = True
-THEME = "/home/savvas-mint/pelican-themes/pelican-bootstrap3"
+THEME = "/home/savvas/blog_env/pelican-themes/pelican-bootstrap3"
 
 # Disqus and Google Analytics
 
@@ -49,7 +49,7 @@ GOOGLE_ANALYTICS = "UA-50819746-1"
 
 
 #Plugins
-PLUGIN_PATHS = ['/home/savvas-mint/pelican-plugins']
+PLUGIN_PATHS = ['/home/savvas/blog_env/pelican-plugins']
 PLUGINS = ['liquid_tags.img', 'liquid_tags.video',
            'liquid_tags.youtube', 'liquid_tags.vimeo',
            'liquid_tags.include_code', 'liquid_tags.notebook', 
