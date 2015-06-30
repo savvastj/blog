@@ -50,10 +50,7 @@ GOOGLE_ANALYTICS = "UA-50819746-1"
 
 #Plugins
 PLUGIN_PATHS = ['/home/savvas/blog_env/pelican-plugins']
-PLUGINS = ['liquid_tags.img', 'liquid_tags.video',
-           'liquid_tags.youtube', 'liquid_tags.vimeo',
-           'liquid_tags.include_code', 'liquid_tags.notebook', 
-           'summary']
+PLUGINS = ['ipynb']
 
 
 # Static paths will be copied without parsing their contents
