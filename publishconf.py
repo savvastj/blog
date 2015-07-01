@@ -10,7 +10,7 @@ import sys
 sys.path.append(os.curdir)
 from pelicanconf import *
 
-SITEURL = 'savvastjortjoglou.com'
+SITEURL = 'http://savvastjortjoglou.com'
 # RELATIVE_URLS = True
 
 FEED_ALL_ATOM = 'feeds/all.atom.xml'
@@ -21,4 +21,4 @@ DELETE_OUTPUT_DIRECTORY = True
 # Following items are often useful when publishing
 
 DISQUS_SITENAME = 'savvasblog'
-# GOOGLE_ANALYTICS = 'UA-50819746-1'
+GOOGLE_ANALYTICS = 'UA-50819746-1'

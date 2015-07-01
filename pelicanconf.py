@@ -10,6 +10,9 @@ TIMEZONE = 'America/New_York'
 
 DEFAULT_LANG = u'en'
 
+# used for ipynb plugin
+MARKUP = ('md', 'ipynb')
+
 # Feed generation is usually not desired when developing
 FEED_ALL_ATOM = None
 CATEGORY_FEED_ATOM = None
@@ -34,24 +37,35 @@ TRANSLATION_FEED_ATOM = None
 
 DEFAULT_PAGINATION = 5
 
+GOOGLE_ANALYTICS = "UA-50819746-1"
+
 DISPLAY_CATEGORIES_ON_MENU = False
 
 # Uncomment following line if you want document-relative URLs when developing
 #RELATIVE_URLS = True
-THEME = "/home/savvas/blog_env/pelican-themes/pelican-bootstrap3"
+THEME = "/home/savvas/PyStuff/blog_env/pelican-themes/pelican-bootstrap3"
 
-# Disqus and Google Analytics
+# Bootswatch THEME
+BOOTSTRAP_THEME = 'yeti'
 
-DISQUS_SITENAME = "savvasblog"
-# DISQUS_NO_ID = True
+# Set to blue version of creative which is based on yeti
+BOOTSTRAP_NAVBAR_INVERSE = False
 
-GOOGLE_ANALYTICS = "UA-50819746-1"
-
+# Hide the side bar
+HIDE_SIDEBAR = True
 
 #Plugins
-PLUGIN_PATHS = ['/home/savvas/blog_env/pelican-plugins']
-PLUGINS = ['ipynb']
+PLUGIN_PATHS = ['/home/savvas/PyStuff/blog_env/pelican-plugins']
+PLUGINS = ['ipynb', 
+            'liquid_tags.img', 
+            'liquid_tags.video',
+           'liquid_tags.youtube', 
+           'liquid_tags.vimeo',
+           'liquid_tags.include_code', 
+           'summary']
 
+# Pygments 
+PYGMENTS_STYLE = 'bw'
 
 # Static paths will be copied without parsing their contents
 STATIC_PATHS = ['images', 'code', 'extra/CNAME']
@@ -60,21 +74,7 @@ STATIC_PATHS = ['images', 'code', 'extra/CNAME']
 # Used for custom domain name
 EXTRA_PATH_METADATA = {'extra/CNAME': {'path': 'CNAME'}, }
 
-# Pygments 
-PYGMENTS_STYLE = 'monokai'
 
-# Bootswatch THEME
-BOOTSTRAP_THEME = 'creative'
 
-# Recent Posts
-# DISPLAY_RECENT_POSTS_ON_SIDEBAR = 'True'
-
-# Set to blue version of creative which is based on yeti
-BOOTSTRAP_NAVBAR_INVERSE = True
-
-# Hide the side bare
-# HIDE_SIDEBAR = True
-
-DISPLAY_TAGS_ON_SIDEBAR = False
-
+# DISQUS_SITENAME = "savvasblog"
 

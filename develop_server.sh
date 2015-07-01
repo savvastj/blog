@@ -2,7 +2,7 @@
 ##
 # This section should match your Makefile
 ##
-PY=${PY:-python}
+PY=${PY:-python3}
 PELICAN=${PELICAN:-pelican}
 PELICANOPTS=
 
@@ -76,7 +76,7 @@ function start_up(){
     echo "Pelican didn't start. Is the Pelican package installed?"
     return 1
   elif ! alive $srv_pid ; then
-    echo "The HTTP server didn't start. Is there another service using port 8000?"
+    echo "The HTTP server didn't start. Is there another service using port" $port "?"
     return 1
   fi
   echo 'Pelican and HTTP server processes now running in background.'
