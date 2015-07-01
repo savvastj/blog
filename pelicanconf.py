@@ -74,7 +74,7 @@ EXTRA_PATH_METADATA = {'extra/CNAME': {'path': 'CNAME'}, }
 
 
 
-# DISQUS_SITENAME = "savvasblog"
+DISQUS_SITENAME = "savvasblog"
 
 SHARIFF = True
 SHARIFF_LANG = True
