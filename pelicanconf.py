@@ -6,7 +6,7 @@ LOAD_CONTENT_CACHE = False
 
 AUTHOR = 'Savvas Tjortjoglou'
 SITENAME = 'Savvas Tjortjoglou'
-SITEURL = ''
+SITEURL = 'http://savvastjortjoglou.com'
 
 TIMEZONE = 'America/New_York'
 
@@ -23,7 +23,7 @@ DEFAULT_PAGINATION = 5
 #RELATIVE_URLS = True
 
 GOOGLE_ANALYTICS = "UA-50819746-1"
-# DISQUS_SITENAME = "savvasblog"
+DISQUS_SITENAME = "savvasblog"
 
 
 DISPLAY_CATEGORIES_ON_MENU = False
