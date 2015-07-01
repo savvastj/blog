@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Savvas Tjortjoglou</title><link href="http://www.savvastjortjoglou.com/" rel="alternate"></link><link href="http://www.savvastjortjoglou.com/feeds/savvas-tjortjoglou.atom.xml" rel="self"></link><id>http://www.savvastjortjoglou.com/</id><updated>2015-07-01T00:00:00-04:00</updated><entry><title>The NBA Draft and Python: Part 1 - Scraping and Cleaning the Data</title><link href="http://www.savvastjortjoglou.com/nba_draft_part01_scraping.html" rel="alternate"></link><updated>2015-07-01T00:00:00-04:00</updated><author><name>Savvas Tjortjoglou</name></author><id>tag:www.savvastjortjoglou.com,2015-07-01:nba_draft_part01_scraping.html</id><summary type="html">&lt;style type="text/css"&gt;/*!
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Savvas Tjortjoglou</title><link href="http://savvastjortjoglou.com/" rel="alternate"></link><link href="http://savvastjortjoglou.com/feeds/savvas-tjortjoglou.atom.xml" rel="self"></link><id>http://savvastjortjoglou.com/</id><updated>2015-07-01T00:00:00-04:00</updated><entry><title>The NBA Draft and Python: Part 1 - Scraping and Cleaning the Data</title><link href="http://savvastjortjoglou.com/nba_draft_part01_scraping.html" rel="alternate"></link><updated>2015-07-01T00:00:00-04:00</updated><author><name>Savvas Tjortjoglou</name></author><id>tag:savvastjortjoglou.com,2015-07-01:nba_draft_part01_scraping.html</id><summary type="html">&lt;style type="text/css"&gt;/*!
 *
 * IPython notebook
 *
@@ -2150,7 +2150,7 @@ Pandas version: 0.16.2
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 &lt;/script&gt;
-</summary><category term="Python"></category><category term="NBA"></category><category term="Web Scraping"></category></entry><entry><title>Hello World!</title><link href="http://www.savvastjortjoglou.com/hello-world.html" rel="alternate"></link><updated>2015-04-05T08:30:00-04:00</updated><author><name>Savvas Tjortjoglou</name></author><id>tag:www.savvastjortjoglou.com,2015-04-05:hello-world.html</id><summary type="html">&lt;!-- PELICAN_END_SUMMARY --&gt;
+</summary><category term="Python"></category><category term="NBA"></category><category term="Web Scraping"></category></entry><entry><title>Hello World!</title><link href="http://savvastjortjoglou.com/hello-world.html" rel="alternate"></link><updated>2015-04-05T08:30:00-04:00</updated><author><name>Savvas Tjortjoglou</name></author><id>tag:savvastjortjoglou.com,2015-04-05:hello-world.html</id><summary type="html">&lt;!-- PELICAN_END_SUMMARY --&gt;
 
-&lt;p&gt;&lt;center&gt;&lt;img alt="[40 [22]] []" title="[40 [22]] []" src="http://t0.gstatic.com/images?q=tbn:ANd9GcQ7FPifj2hTdhQaRZ1FDuCkpK-jOR04ns7W4f71Kbo8ebNLC1rS" class="[Pelican]"&gt;&lt;/center&gt; &lt;/p&gt;
+&lt;p&gt;&lt;center&gt;&lt;img alt="[40 [22]] []" class="[Pelican]" src="http://t0.gstatic.com/images?q=tbn:ANd9GcQ7FPifj2hTdhQaRZ1FDuCkpK-jOR04ns7W4f71Kbo8ebNLC1rS" title="[40 [22]] []"&gt;&lt;/center&gt; &lt;/p&gt;
 &lt;p&gt;My first Post! Finally got a blog up and running using Pelican. &lt;/p&gt;</summary><category term="Pelican"></category></entry></feed>
