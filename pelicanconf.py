@@ -6,7 +6,7 @@ LOAD_CONTENT_CACHE = False
 
 AUTHOR = u'Savvas Tjortjoglou'
 SITENAME = u'Savvas Tjortjoglou'
-SITEURL = ''
+SITEURL = 'http://www.savvastjortjoglou.com'
 
 TIMEZONE = 'America/New_York'
 
