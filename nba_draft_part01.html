@@ -1,0 +1,2279 @@
+<!DOCTYPE html>
+<html lang="en"
+>
+<head>
+    <title>The NBA Draft and Python: Part 1 - Scraping and Cleaning the Data - Savvas Tjortjoglou</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="/nba_draft_part01.html">
+
+        <meta name="author" content="Savvas Tjortjoglou" />
+        <meta name="keywords" content="Python,NBA,Web Scraping" />
+        <meta name="description" content="With the 2015 NBA Draft in the books (#knickstaps) I wanted to take a look at some data from previous drafts and explore it as means of learning some Python. In part 1 we&#39;ll be scraping and cleaning data from the 1966 draft (the first year without territorial picks) to the 2014 draft." />
+
+        <meta property="og:site_name" content="Savvas Tjortjoglou" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="The NBA Draft and Python: Part 1 - Scraping and Cleaning the Data"/>
+        <meta property="og:url" content="/nba_draft_part01.html"/>
+        <meta property="og:description" content="With the 2015 NBA Draft in the books (#knickstaps) I wanted to take a look at some data from previous drafts and explore it as means of learning some Python. In part 1 we&#39;ll be scraping and cleaning data from the 1966 draft (the first year without territorial picks) to the 2014 draft."/>
+        <meta property="article:published_time" content="2015-07-01" />
+            <meta property="article:section" content="Blog" />
+            <meta property="article:tag" content="Python" />
+            <meta property="article:tag" content="NBA" />
+            <meta property="article:tag" content="Web Scraping" />
+            <meta property="article:author" content="Savvas Tjortjoglou" />
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="/theme/css/bootstrap.yeti.min.css" type="text/css"/>
+    <link href="/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="/theme/css/pygments/bw.css" rel="stylesheet">
+    <link rel="stylesheet" href="/theme/css/style.css" type="text/css"/>
+
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="/" class="navbar-brand">
+Savvas Tjortjoglou            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="/nba_draft_part01.html"
+                       rel="bookmark"
+                       title="Permalink to The NBA Draft and Python: Part 1 - Scraping and Cleaning the Data">
+                        The NBA Draft and Python: Part 1 - Scraping and Cleaning the Data
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2015-07-01T00:00:00-04:00"> Wed 01 July 2015</time>
+    </span>
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="/tag/python.html">Python</a>
+        /
+	<a href="/tag/nba.html">NBA</a>
+        /
+	<a href="/tag/web-scraping.html">Web Scraping</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <style type="text/css">/*!
+*
+* IPython notebook
+*
+*/.ansibold{font-weight:bold}.ansiblack{color:black}.ansired{color:darkred}.ansigreen{color:darkgreen}.ansiyellow{color:#c4a000}.ansiblue{color:darkblue}.ansipurple{color:darkviolet}.ansicyan{color:steelblue}.ansigray{color:gray}.ansibgblack{background-color:black}.ansibgred{background-color:red}.ansibggreen{background-color:green}.ansibgyellow{background-color:yellow}.ansibgblue{background-color:blue}.ansibgpurple{background-color:magenta}.ansibgcyan{background-color:cyan}.ansibggray{background-color:gray}div.cell{border:1px solid transparent;display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch;border-radius:2px;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;border-width:thin;border-style:solid;width:100%;padding:5px;margin:0;outline:none}div.cell.selected{border-color:#ababab}@media print{div.cell.selected{border-color:transparent}}.edit_mode div.cell.selected{border-color:green}@media print{.edit_mode div.cell.selected{border-color:transparent}}.prompt{min-width:14ex;padding:.4em;margin:0;font-family:monospace;text-align:right;line-height:1.21429em}@media (max-width:540px){.prompt{text-align:left}}div.inner_cell{display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch;-webkit-box-flex:1;-moz-box-flex:1;box-flex:1;flex:1}@-moz-document url-prefix(){div.inner_cell{overflow-x:hidden}}div.input_area{border:1px solid #cfcfcf;border-radius:2px;background:#f7f7f7;line-height:1.21429em}div.prompt:empty{padding-top:0;padding-bottom:0}div.unrecognized_cell{padding:5px 5px 5px 0;display:-webkit-box;-webkit-box-orient:horizontal;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:horizontal;-moz-box-align:stretch;display:box;box-orient:horizontal;box-align:stretch;display:flex;flex-direction:row;align-items:stretch}div.unrecognized_cell .inner_cell{border-radius:2px;padding:5px;font-weight:bold;color:red;border:1px solid #cfcfcf;background:#eaeaea}div.unrecognized_cell .inner_cell a{color:inherit;text-decoration:none}div.unrecognized_cell .inner_cell a:hover{color:inherit;text-decoration:none}@media (max-width:540px){div.unrecognized_cell>div.prompt{display:none}}@media print{div.code_cell{page-break-inside:avoid}}div.input{page-break-inside:avoid;display:-webkit-box;-webkit-box-orient:horizontal;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:horizontal;-moz-box-align:stretch;display:box;box-orient:horizontal;box-align:stretch;display:flex;flex-direction:row;align-items:stretch}@media (max-width:540px){div.input{display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch}}div.input_prompt{color:navy;border-top:1px solid transparent}div.input_area>div.highlight{margin:.4em;border:none;padding:0;background-color:transparent}div.input_area>div.highlight>pre{margin:0;border:none;padding:0;background-color:transparent}.CodeMirror{line-height:1.21429em;font-size:14px;height:auto;background:none}.CodeMirror-scroll{overflow-y:hidden;overflow-x:auto}.CodeMirror-lines{padding:.4em}.CodeMirror-linenumber{padding:0 8px 0 4px}.CodeMirror-gutters{border-bottom-left-radius:2px;border-top-left-radius:2px}.CodeMirror pre{padding:0;border:0;border-radius:0}.highlight-base{}.highlight-variable{}.highlight-variable-2{color:#1a1a1a}.highlight-variable-3{color:#333}.highlight-string{color:#ba2121}.highlight-comment{color:#408080;font-style:italic}.highlight-number{80}.highlight-atom{color:#88f}.highlight-keyword{8000;font-weight:bold}.highlight-builtin{8000}.highlight-error{color:#f00}.highlight-operator{color:#a2f;font-weight:bold}.highlight-meta{color:#a2f}.highlight-def{f}.highlight-string-2{color:#f50}.highlight-qualifier{color:#555}.highlight-bracket{color:#997}.highlight-tag{color:#170}.highlight-attribute{c}.highlight-header{color:blue}.highlight-quote{90}.highlight-link{c}.cm-s-ipython span.cm-keyword{8000;font-weight:bold}.cm-s-ipython span.cm-atom{color:#88f}.cm-s-ipython span.cm-number{80}.cm-s-ipython span.cm-def{f}.cm-s-ipython span.cm-variable{}.cm-s-ipython span.cm-operator{color:#a2f;font-weight:bold}.cm-s-ipython span.cm-variable-2{color:#1a1a1a}.cm-s-ipython span.cm-variable-3{color:#333}.cm-s-ipython span.cm-comment{color:#408080;font-style:italic}.cm-s-ipython span.cm-string{color:#ba2121}.cm-s-ipython span.cm-string-2{color:#f50}.cm-s-ipython span.cm-meta{color:#a2f}.cm-s-ipython span.cm-qualifier{color:#555}.cm-s-ipython span.cm-builtin{8000}.cm-s-ipython span.cm-bracket{color:#997}.cm-s-ipython span.cm-tag{color:#170}.cm-s-ipython span.cm-attribute{c}.cm-s-ipython span.cm-header{color:blue}.cm-s-ipython span.cm-quote{90}.cm-s-ipython span.cm-link{c}.cm-s-ipython span.cm-error{color:#f00}.cm-s-ipython span.cm-tab{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAMCAYAAAAkuj5RAAAAAXNSR0IArs4c6QAAAGFJREFUSMft1LsRQFAQheHPowAKoACx3IgEKtaEHujDjORSgWTH/ZOdnZOcM/sgk/kFFWY0qV8foQwS4MKBCS3qR6ixBJvElOobYAtivseIE120FaowJPN75GMu8j/LfMwNjh4HUpwg4LUAAAAASUVORK5CYII=);background-position:right;background-repeat:no-repeat}div.output_wrapper{position:relative;display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch;z-index:1}div.output_scroll{height:24em;width:100%;overflow:auto;border-radius:2px;-webkit-box-shadow:inset 0 2px 8px rgba(0,0,0,0.8);box-shadow:inset 0 2px 8px rgba(0,0,0,0.8);display:block}div.output_collapsed{margin:0;padding:0;display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch}div.out_prompt_overlay{height:100%;padding:0 .4em;position:absolute;border-radius:2px}div.out_prompt_overlay:hover{-webkit-box-shadow:inset 0 0 1px #000;box-shadow:inset 0 0 1px #000;background:rgba(240,240,240,0.5)}div.output_prompt{color:darkred}div.output_area{padding:0;page-break-inside:avoid;display:-webkit-box;-webkit-box-orient:horizontal;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:horizontal;-moz-box-align:stretch;display:box;box-orient:horizontal;box-align:stretch;display:flex;flex-direction:row;align-items:stretch}div.output_area .MathJax_Display{text-align:left !important}div.output_area div.output_area div.output_area img,div.output_area svg{max-width:100%;height:auto}div.output_area img.unconfined,div.output_area svg.unconfined{max-width:none}.output{display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch}@media (max-width:540px){div.output_area{display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch}}div.output_area pre{margin:0;padding:0;border:0;vertical-align:baseline;color:black;background-color:transparent;border-radius:0}div.output_subarea{overflow-x:auto;padding:.4em;-webkit-box-flex:1;-moz-box-flex:1;box-flex:1;flex:1;max-width:calc(100% - 14ex)}div.output_text{text-align:left;line-height:1.21429em}div.output_stderr{background:#fdd}div.output_latex{text-align:left}div.output_javascript:empty{padding:0}.js-error{color:darkred}div.raw_input_container{font-family:monospace;padding-top:5px}input.raw_input{font-family:inherit;font-size:inherit;color:inherit;width:auto;vertical-align:baseline;padding:0 .25em;margin:0 .25em}input.raw_input:focus{box-shadow:none}p.p-space{margin-bottom:10px}div.output_unrecognized{padding:5px;font-weight:bold;color:red}div.output_unrecognized a{color:inherit;text-decoration:none}div.output_unrecognized a:hover{color:inherit;text-decoration:none}.rendered_html{}.rendered_html :link{text-decoration:underline}.rendered_html :visited{text-decoration:underline}.rendered_html h1:first-child{margin-top:.538em}.rendered_html h2:first-child{margin-top:.636em}.rendered_html h3:first-child{margin-top:.777em}.rendered_html h4:first-child{margin-top:1em}.rendered_html h5:first-child{margin-top:1em}.rendered_html h6:first-child{margin-top:1em}.rendered_html *+ul{margin-top:1em}.rendered_html *+ol{margin-top:1em}.rendered_html pre,.rendered_html tr,.rendered_html th,.rendered_html td,.rendered_html *+table{margin-top:1em}.rendered_html *+p{margin-top:1em}.rendered_html *+img{margin-top:1em}.rendered_html img,.rendered_html img.unconfined,.rendered_html svg.unconfined{max-width:none}div.text_cell{display:-webkit-box;-webkit-box-orient:horizontal;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:horizontal;-moz-box-align:stretch;display:box;box-orient:horizontal;box-align:stretch;display:flex;flex-direction:row;align-items:stretch}@media (max-width:540px){div.text_cell>div.prompt{display:none}}div.text_cell_render{outline:none;resize:none;width:inherit;border-style:none;padding:.5em .5em .5em .4em;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box}a.anchor-link:link{text-decoration:none;padding:0 20px;visibility:hidden}h1:hover .anchor-link,h2:hover .anchor-link,h3:hover .anchor-link,h4:hover .anchor-link,h5:hover .anchor-link,h6:hover .anchor-link{visibility:visible}.text_cell.rendered .input_area{display:none}.text_cell.rendered .text_cell.unrendered .text_cell_render{display:none}.cm-header-1,.cm-header-2,.cm-header-3,.cm-header-4,.cm-header-5,.cm-header-6{font-weight:bold;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif}.cm-header-1{font-size:185.7%}.cm-header-2{font-size:157.1%}.cm-header-3{font-size:128.6%}.cm-header-4{font-size:110%}.cm-header-5{font-size:100%;font-style:italic}.cm-header-6{font-size:100%;font-style:italic}.widget-interact>div,.widget-interact>input{padding:2.5px}.widget-area{page-break-inside:avoid;display:-webkit-box;-webkit-box-orient:horizontal;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:horizontal;-moz-box-align:stretch;display:box;box-orient:horizontal;box-align:stretch;display:flex;flex-direction:row;align-items:stretch}.widget-area .widget-subarea{padding:.44em .4em .4em 1px;margin-left:6px;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch;-webkit-box-flex:2;-moz-box-flex:2;box-flex:2;flex:2;-webkit-box-align:start;-moz-box-align:start;box-align:start;align-items:flex-start}.widget-area.connection-problems .prompt:after{content:"\f127";font-family:'FontAwesome';color:#d9534f;font-size:14px;top:3px;padding:3px}.slide-track{border:1px solid #ccc;background:#fff;border-radius:2px}.widget-hslider{padding-left:8px;padding-right:2px;overflow:visible;width:350px;height:5px;max-height:5px;margin-top:13px;margin-bottom:10px;border:1px solid #ccc;background:#fff;border-radius:2px;display:-webkit-box;-webkit-box-orient:horizontal;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:horizontal;-moz-box-align:stretch;display:box;box-orient:horizontal;box-align:stretch;display:flex;flex-direction:row;align-items:stretch}.widget-hslider .ui-slider{border:0;background:none;display:-webkit-box;-webkit-box-orient:horizontal;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:horizontal;-moz-box-align:stretch;display:box;box-orient:horizontal;box-align:stretch;display:flex;flex-direction:row;align-items:stretch;-webkit-box-flex:1;-moz-box-flex:1;box-flex:1;flex:1}.widget-hslider .ui-slider .ui-slider-handle{width:12px;height:28px;margin-top:-8px;border-radius:2px}.widget-hslider .ui-slider .ui-slider-range{height:12px;margin-top:-4px;background:#eee}.widget-vslider{padding-bottom:5px;overflow:visible;width:5px;max-width:5px;height:250px;margin-left:12px;border:1px solid #ccc;background:#fff;border-radius:2px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch}.widget-vslider .ui-slider{border:0;background:none;margin-left:-4px;margin-top:5px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch;-webkit-box-flex:1;-moz-box-flex:1;box-flex:1;flex:1}.widget-vslider .ui-slider .ui-slider-handle{width:28px;height:12px;margin-left:-9px;border-radius:2px}.widget-vslider .ui-slider .ui-slider-range{width:12px;margin-left:-1px;background:#eee}.widget-text{width:350px;margin:0}.widget-listbox{width:350px;margin-bottom:0}.widget-numeric-text{width:150px;margin:0}.widget-progress{margin-top:6px;min-width:350px}.widget-progress .progress-bar{-webkit-transition:none;-moz-transition:none;-ms-transition:none;-o-transition:none;transition:none}.widget-combo-btn{min-width:125px}.widget_item .dropdown-menu li a{color:inherit}.widget-hbox{display:-webkit-box;-webkit-box-orient:horizontal;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:horizontal;-moz-box-align:stretch;display:box;box-orient:horizontal;box-align:stretch;display:flex;flex-direction:row;align-items:stretch}.widget-hbox input[type="checkbox"]{margin-top:9px;margin-bottom:10px}.widget-hbox .widget-label{min-width:10ex;padding-right:8px;padding-top:5px;text-align:right;vertical-align:text-top}.widget-hbox .widget-readout{padding-left:8px;padding-top:5px;text-align:left;vertical-align:text-top}.widget-vbox{display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch}.widget-vbox .widget-label{padding-bottom:5px;text-align:center;vertical-align:text-bottom}.widget-vbox .widget-readout{padding-top:5px;text-align:center;vertical-align:text-top}.widget-box{box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;-webkit-box-align:start;-moz-box-align:start;box-align:start;align-items:flex-start}.widget-radio-box{display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;padding-top:4px}.widget-radio-box label{margin-top:0;margin-left:20px}</style>
+<style type="text/css">.highlight .hll { background-color: #ffffcc }
+.highlight  { background: #f8f8f8; }
+.highlight .c { color: #408080; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0044DD } /* Generic.Traceback */
+.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #B00040 } /* Keyword.Type */
+.highlight .m { color: #666666 } /* Literal.Number */
+.highlight .s { color: #BA2121 } /* Literal.String */
+.highlight .na { color: #7D9029 } /* Name.Attribute */
+.highlight .nb { color: #008000 } /* Name.Builtin */
+.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight .no { color: #880000 } /* Name.Constant */
+.highlight .nd { color: #AA22FF } /* Name.Decorator */
+.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #0000FF } /* Name.Function */
+.highlight .nl { color: #A0A000 } /* Name.Label */
+.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #19177C } /* Name.Variable */
+.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mb { color: #666666 } /* Literal.Number.Bin */
+.highlight .mf { color: #666666 } /* Literal.Number.Float */
+.highlight .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight .sx { color: #008000 } /* Literal.String.Other */
+.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #19177C } /* Name.Variable.Class */
+.highlight .vg { color: #19177C } /* Name.Variable.Global */
+.highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */</style>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>With the 2015 NBA Draft in the books (<a href="https://twitter.com/hashtag/knickstaps?src=hash">#knickstaps</a>) I wanted to take a look at some <a href="http://www.basketball-reference.com/draft/">data</a> from previous drafts and explore it as means of learning some Python.</p>
+<p>In part 1 we'll be scraping and cleaning data from the 1966 draft (the first year without territorial picks) to the 2014 draft.</p>
+<p>To scrape the data we want, we will use the <code>BeautifulSoup</code> library.  It allows us to search through the HTML of a webpage and extract the information we need.  We'll then take the scraped data and then store it in a <code>DataFrame</code> using the <code>pandas</code> library.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [2]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="kn">from</span> <span class="nn">urllib.request</span> <span class="k">import</span> <span class="n">urlopen</span>
+<span class="kn">from</span> <span class="nn">bs4</span> <span class="k">import</span> <span class="n">BeautifulSoup</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Scraping-the-Data">Scraping the Data<a class="anchor-link" href="#Scraping-the-Data">¶</a></h2><p>Lets get a feel for using <code>Beautiful Soup</code> by just scraping the data for the 2014 NBA draft.</p>
+<p>First we need to get the HTML document we will be scraping.  To do that we will use <code>urlopen</code> that we imported from the <code>urllib.request</code> library.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [3]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="c"># url that we are scraping</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s">"http://www.basketball-reference.com/draft/NBA_2014.html"</span>
+
+<span class="c"># this is the html from the given url</span>
+<span class="n">html</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now we create a <code>BeautifulSoup</code> object by passing through <code>html</code> to the <code>BeautifulSoup()</code> constructor.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [4]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [5]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="nb">type</span><span class="p">(</span><span class="n">soup</span><span class="p">)</span>  <span class="c"># we see that soup is a BeautifulSoup object</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt output_prompt">Out[5]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>bs4.BeautifulSoup</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Getting-Column-Headers">Getting Column Headers<a class="anchor-link" href="#Getting-Column-Headers">¶</a></h3><p>First lets grab the information that will become the column headers of our <code>DataFrame</code>. That information is found in the content of a table header cell HTML element (which are denoted by the <code>&lt;th&gt;&lt;/th&gt;</code> tags), which is found within a table row element (<code>&lt;tr&gt;&lt;/tr&gt;</code>) of a table header element (<code>&lt;thead&gt;&lt;/thead&gt;</code>) of a table element (<code>&lt;table&gt;&lt;/table&gt;</code>).</p>
+<p>The HTML structure would look something like this:</p>
+<pre><code>&lt;table&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th&gt;The text we want is between these HTML tags&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+&lt;/thead&gt;
+
+</code></pre>
+<p>As an example, lets take a look at the table header cell element for the 'Player' column header:</p>
+<pre><code>&lt;th data-stat="player" align="left" class="tooltip sort_default_asc"&gt;Player&lt;/th&gt;
+
+</code></pre>
+<p>We want to extract the text content (which would be 'Player' in above example) from all elements like one above and store them into a list.</p>
+<p>By inspecting the HTML document (in Chrome you do this by right-clinking on the webpage and selecting "Inspect element" from the dropdown menu)  we see that the 2nd table row is the one that contains the table headers we want.</p>
+<p>Using <code>BeautifulSoup</code> to get this information is pretty straightfoward. All we have to do is:</p>
+<ol>
+<li><p>Use the <code>findAll()</code> method to find the first 2 rows on the page.</p>
+<ul>
+<li>We pass the element we want as the first argument, in this case<code>'tr'</code></li>
+<li>We set the <code>limit</code> parameter to 2 so we only get the first 2 table row elements.</li>
+<li>So we have something like this:
+<pre><code>  soup.findAll('tr', limit=2)</code></pre>
+</li>
+<li>The <code>findAll()</code> method above returns us a list of <code>BeautifulSoup Tag</code> objects.  In this case it returns the <code>Tag</code> objects that represent the table rows we wanted.</li>
+</ul>
+</li>
+<li><p>We want the 2nd table row so we have to extract the 2nd element of the list of <code>Tag</code> objects, which is done by just indexing the list as follows:</p>
+<pre><code>     soup.findAll('tr', limit=2)[1]</code></pre>
+</li>
+<li><p>Since the above returns us a <code>Tag</code> object we can just call <code>findAll()</code> on it to extract the table header cell elements like this:</p>
+<pre><code>     soup.findAll('tr', limit=2)[1].findAll('th')    </code></pre>
+</li>
+<li><p>Now we have a list of containing the table header cell elements that can iterate through and extract the text we want via the <code>getText()</code> method.  Lets extract that text and construct a list of the column headers using <a href="https://docs.python.org/3/tutorial/datastructures.html#list-comprehensions">list comprehension</a> .</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [6]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="n">column_headers</span> <span class="o">=</span> <span class="p">[</span><span class="n">th</span><span class="o">.</span><span class="n">getText</span><span class="p">()</span> <span class="k">for</span> <span class="n">th</span> <span class="ow">in</span> 
+                  <span class="n">soup</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s">'tr'</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">2</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s">'th'</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [7]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="n">column_headers</span> <span class="c"># our column headers</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt output_prompt">Out[7]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>[&amp;apos;Rk&amp;apos;,
+ &amp;apos;Pk&amp;apos;,
+ &amp;apos;Tm&amp;apos;,
+ &amp;apos;Player&amp;apos;,
+ &amp;apos;College&amp;apos;,
+ &amp;apos;Yrs&amp;apos;,
+ &amp;apos;G&amp;apos;,
+ &amp;apos;MP&amp;apos;,
+ &amp;apos;PTS&amp;apos;,
+ &amp;apos;TRB&amp;apos;,
+ &amp;apos;AST&amp;apos;,
+ &amp;apos;FG%&amp;apos;,
+ &amp;apos;3P%&amp;apos;,
+ &amp;apos;FT%&amp;apos;,
+ &amp;apos;MP&amp;apos;,
+ &amp;apos;PTS&amp;apos;,
+ &amp;apos;TRB&amp;apos;,
+ &amp;apos;AST&amp;apos;,
+ &amp;apos;WS&amp;apos;,
+ &amp;apos;WS/48&amp;apos;,
+ &amp;apos;BPM&amp;apos;,
+ &amp;apos;VORP&amp;apos;]</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>NOTE</strong> Some of the column headers (or names or labels) need to be renamed, but we won't be doing that until we scrape the date from 1966 and on.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Getting-the-Data">Getting the Data<a class="anchor-link" href="#Getting-the-Data">¶</a></h3><p>We now need to extract the data from the HTML table and fill up our <code>DataFrame</code>.</p>
+<p>We can follow a similar process to the one we used to exract the header information.</p>
+<p>In this case the data we want is found in the table row elements after the first two header rows. So lets get the list of table rows as follows:</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [8]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="n">data_rows</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s">'tr'</span><span class="p">)[</span><span class="mi">2</span><span class="p">:]</span>  <span class="c"># skip the first 2 header rows</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [9]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="nb">type</span><span class="p">(</span><span class="n">data_rows</span><span class="p">)</span>  <span class="c"># now we have a list of table rows</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt output_prompt">Out[9]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>list</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The difference with extracting the the player data versus the column headers is that the the player data is in a 2-dimensional format (or a matrix), so we have to construct a 2-dimensional list.  We can do this using a nested list comprehension</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [10]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="n">player_data</span> <span class="o">=</span> <span class="p">[[</span><span class="n">td</span><span class="o">.</span><span class="n">getText</span><span class="p">()</span> <span class="k">for</span> <span class="n">td</span> <span class="ow">in</span> <span class="n">data_rows</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s">'td'</span><span class="p">)]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data_rows</span><span class="p">))]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Lets take a look at what the above does.</p>
+<p>The outer for loop</p>
+<pre><code>for i in range(len(data_rows))   
+</code></pre>
+<p>gets each table row which represents each draft pick.</p>
+<p>The for loop in the inner list comprehension</p>
+<pre><code>[td.getText() for td in data_rows[i].findAll('td')]    
+</code></pre>
+<p>extracts the text from the table data element (<code>&lt;td&gt;&lt;/td&gt;</code>) for each row.  This text represents the column data for each draft pick.</p>
+<p>You could also construct the above list without a list comprehension:</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [11]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="n">player_data_02</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c"># create an empty list to hold all the data</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data_rows</span><span class="p">)):</span>  <span class="c"># for each table row</span>
+    <span class="n">player_row</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c"># create an empty list for each pick/player</span>
+
+    <span class="c"># for each table data element from each table row</span>
+    <span class="k">for</span> <span class="n">td</span> <span class="ow">in</span> <span class="n">data_rows</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s">'td'</span><span class="p">):</span>        
+        <span class="c"># get the text content and append to the player_row </span>
+        <span class="n">player_row</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">td</span><span class="o">.</span><span class="n">getText</span><span class="p">())</span>        
+
+    <span class="c"># then append each pick/player to the player_data matrix</span>
+    <span class="n">player_data_02</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">player_row</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Both <code>player_data</code> and <code>player_data_02</code> are equivalent.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [12]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="n">player_data</span> <span class="o">==</span> <span class="n">player_data_02</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt output_prompt">Out[12]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>True</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now that we have the column labels and the data we can construct a <code>pandas DataFrame</code>.</p>
+<p>We pass in the <code>player_data</code> as the first parameter in the <code>DataFrame</code> contructor and set the <code>columns</code> paramter to <code>column_headers</code>.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [13]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">player_data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">column_headers</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [14]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>  <span class="c"># head() lets us see the 1st 5 rows of our DataFrame by default</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt output_prompt">Out[14]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>Rk</th>
+<th>Pk</th>
+<th>Tm</th>
+<th>Player</th>
+<th>College</th>
+<th>Yrs</th>
+<th>G</th>
+<th>MP</th>
+<th>PTS</th>
+<th>TRB</th>
+<th>...</th>
+<th>3P%</th>
+<th>FT%</th>
+<th>MP</th>
+<th>PTS</th>
+<th>TRB</th>
+<th>AST</th>
+<th>WS</th>
+<th>WS/48</th>
+<th>BPM</th>
+<th>VORP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>1</td>
+<td>1</td>
+<td>CLE</td>
+<td>Andrew Wiggins</td>
+<td>University of Kansas</td>
+<td>1</td>
+<td>82</td>
+<td>2969</td>
+<td>1387</td>
+<td>374</td>
+<td>...</td>
+<td>.310</td>
+<td>.760</td>
+<td>36.2</td>
+<td>16.9</td>
+<td>4.6</td>
+<td>2.1</td>
+<td>2.1</td>
+<td>.034</td>
+<td>-2.3</td>
+<td>-0.2</td>
+</tr>
+<tr>
+<th>1</th>
+<td>2</td>
+<td>2</td>
+<td>MIL</td>
+<td>Jabari Parker</td>
+<td>Duke University</td>
+<td>1</td>
+<td>25</td>
+<td>738</td>
+<td>308</td>
+<td>138</td>
+<td>...</td>
+<td>.250</td>
+<td>.697</td>
+<td>29.5</td>
+<td>12.3</td>
+<td>5.5</td>
+<td>1.7</td>
+<td>1.3</td>
+<td>.088</td>
+<td>-1.2</td>
+<td>0.1</td>
+</tr>
+<tr>
+<th>2</th>
+<td>3</td>
+<td>3</td>
+<td>PHI</td>
+<td>Joel Embiid</td>
+<td>University of Kansas</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>...</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<th>3</th>
+<td>4</td>
+<td>4</td>
+<td>ORL</td>
+<td>Aaron Gordon</td>
+<td>University of Arizona</td>
+<td>1</td>
+<td>47</td>
+<td>797</td>
+<td>243</td>
+<td>169</td>
+<td>...</td>
+<td>.271</td>
+<td>.721</td>
+<td>17.0</td>
+<td>5.2</td>
+<td>3.6</td>
+<td>0.7</td>
+<td>1.0</td>
+<td>.060</td>
+<td>-2.8</td>
+<td>-0.2</td>
+</tr>
+<tr>
+<th>4</th>
+<td>5</td>
+<td>5</td>
+<td>UTA</td>
+<td>Dante Exum</td>
+<td></td>
+<td>1</td>
+<td>82</td>
+<td>1817</td>
+<td>393</td>
+<td>131</td>
+<td>...</td>
+<td>.314</td>
+<td>.625</td>
+<td>22.2</td>
+<td>4.8</td>
+<td>1.6</td>
+<td>2.4</td>
+<td>-0.1</td>
+<td>-.003</td>
+<td>-3.8</td>
+<td>-0.8</td>
+</tr>
+</tbody>
+</table>
+<p>5 rows × 22 columns</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [15]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="c"># we can change from the default view by passing in an integer</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt output_prompt">Out[15]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>Rk</th>
+<th>Pk</th>
+<th>Tm</th>
+<th>Player</th>
+<th>College</th>
+<th>Yrs</th>
+<th>G</th>
+<th>MP</th>
+<th>PTS</th>
+<th>TRB</th>
+<th>...</th>
+<th>3P%</th>
+<th>FT%</th>
+<th>MP</th>
+<th>PTS</th>
+<th>TRB</th>
+<th>AST</th>
+<th>WS</th>
+<th>WS/48</th>
+<th>BPM</th>
+<th>VORP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>1</td>
+<td>1</td>
+<td>CLE</td>
+<td>Andrew Wiggins</td>
+<td>University of Kansas</td>
+<td>1</td>
+<td>82</td>
+<td>2969</td>
+<td>1387</td>
+<td>374</td>
+<td>...</td>
+<td>.310</td>
+<td>.760</td>
+<td>36.2</td>
+<td>16.9</td>
+<td>4.6</td>
+<td>2.1</td>
+<td>2.1</td>
+<td>.034</td>
+<td>-2.3</td>
+<td>-0.2</td>
+</tr>
+<tr>
+<th>1</th>
+<td>2</td>
+<td>2</td>
+<td>MIL</td>
+<td>Jabari Parker</td>
+<td>Duke University</td>
+<td>1</td>
+<td>25</td>
+<td>738</td>
+<td>308</td>
+<td>138</td>
+<td>...</td>
+<td>.250</td>
+<td>.697</td>
+<td>29.5</td>
+<td>12.3</td>
+<td>5.5</td>
+<td>1.7</td>
+<td>1.3</td>
+<td>.088</td>
+<td>-1.2</td>
+<td>0.1</td>
+</tr>
+<tr>
+<th>2</th>
+<td>3</td>
+<td>3</td>
+<td>PHI</td>
+<td>Joel Embiid</td>
+<td>University of Kansas</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>...</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>3 rows × 22 columns</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Cleaning-the-data">Cleaning the data<a class="anchor-link" href="#Cleaning-the-data">¶</a></h2><p>There are few things we have to do make our data usable:</p>
+<ul>
+<li><p>Get rid of a couple of rows (that were header rows) that contain only <code>NoneType</code> values.</p>
+</li>
+<li><p>Rename some of the columns</p>
+</li>
+<li><p>Change the data in each column to their proper data type.</p>
+</li>
+<li><p>Deal with some more missing values in the form of NaNs.</p>
+</li>
+<li><p>Add and drop a certain columns.</p>
+</li>
+</ul>
+<h3 id="Getting-rid-of-the-rows-with-missing-values">Getting rid of the rows with missing values<a class="anchor-link" href="#Getting-rid-of-the-rows-with-missing-values">¶</a></h3><p>Now lets find the rows containing <code>NoneType</code> values. To do this we can use <code>pandas</code> <a href="http://pandas.pydata.org/pandas-docs/stable/indexing.html">boolean indexing</a>. We can find the the rows we want by calling <code>isnull()</code> method (which return <code>True</code> if there is a <code>NoneType</code> or <code>NaN</code>) from the 'Pk' column. If 'Pk' value is missing then there isn't a draft pick in that row so we can get rid of that row.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [16]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="c"># Finding the None rows</span>
+<span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s">'Pk'</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt output_prompt">Out[16]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>Rk</th>
+<th>Pk</th>
+<th>Tm</th>
+<th>Player</th>
+<th>College</th>
+<th>Yrs</th>
+<th>G</th>
+<th>MP</th>
+<th>PTS</th>
+<th>TRB</th>
+<th>...</th>
+<th>3P%</th>
+<th>FT%</th>
+<th>MP</th>
+<th>PTS</th>
+<th>TRB</th>
+<th>AST</th>
+<th>WS</th>
+<th>WS/48</th>
+<th>BPM</th>
+<th>VORP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>30</th>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>...</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>31</th>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>...</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+</tbody>
+</table>
+<p>2 rows × 22 columns</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We get rid of those rows by reassigning <code>df</code> a subset of itself that doesn't have the above rows.</p>
+<p><strong>Note</strong> how we can accese the same column of our DataFrame in different ways.  In the cell below we are accessing the column as an <a href="http://pandas.pydata.org/pandas-docs/stable/indexing.html#attribute-access">attribute</a>.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [17]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">Player</span><span class="o">.</span><span class="n">notnull</span><span class="p">()]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now there aren't any rows that are full of missing values.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [18]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s">'Pk'</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt output_prompt">Out[18]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>Rk</th>
+<th>Pk</th>
+<th>Tm</th>
+<th>Player</th>
+<th>College</th>
+<th>Yrs</th>
+<th>G</th>
+<th>MP</th>
+<th>PTS</th>
+<th>TRB</th>
+<th>...</th>
+<th>3P%</th>
+<th>FT%</th>
+<th>MP</th>
+<th>PTS</th>
+<th>TRB</th>
+<th>AST</th>
+<th>WS</th>
+<th>WS/48</th>
+<th>BPM</th>
+<th>VORP</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p>0 rows × 22 columns</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Renaming-the-columns">Renaming the columns<a class="anchor-link" href="#Renaming-the-columns">¶</a></h3><p>We should rename some of the columns since Python is not happy with having '%' or '/' in identifiers.</p>
+<p>Lets rename the <em>WS/48</em> column to <em>WS_per_48</em> using the <code>rename()</code> method.  We set the <code>columns</code> parmeter to a diction with the key being the column we want to rename and the the value being the new name for that column.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [19]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s">'WS/48'</span><span class="p">:</span><span class="s">'WS_per_48'</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Since there are multiple columns with the '%' character lets use the built-in string method <code>replace()</code> to replace '%' with '_Perc' for those columns</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [20]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="c"># get the column names and replace all '%' with '_Perc'</span>
+<span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">'%'</span><span class="p">,</span> <span class="s">'_Perc'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We also need to differentiate between per game stats and total cumulative career stats.  For example, we have two <em>MP</em> columns, one is the career total minutes played by that player and the other is his per game average.</p>
+<p>To do this we can append '_per_G' to the per game stats using a list comprehension.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [21]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="c"># Get the columns we want by slicing the list of column names</span>
+<span class="c"># and then replace them with the appended names</span>
+<span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">14</span><span class="p">:</span><span class="mi">18</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">14</span><span class="p">:</span><span class="mi">18</span><span class="p">][</span><span class="n">col</span><span class="p">]</span> <span class="o">+</span> 
+                                  <span class="s">"_per_G"</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [22]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt output_prompt">Out[22]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>Index([&amp;apos;Rk&amp;apos;, &amp;apos;Pk&amp;apos;, &amp;apos;Tm&amp;apos;, &amp;apos;Player&amp;apos;, &amp;apos;College&amp;apos;, &amp;apos;Yrs&amp;apos;, &amp;apos;G&amp;apos;, &amp;apos;MP&amp;apos;, &amp;apos;PTS&amp;apos;, &amp;apos;TRB&amp;apos;,
+       &amp;apos;AST&amp;apos;, &amp;apos;FG_Perc&amp;apos;, &amp;apos;3P_Perc&amp;apos;, &amp;apos;FT_Perc&amp;apos;, &amp;apos;MP_per_G&amp;apos;, &amp;apos;PTS_per_G&amp;apos;,
+       &amp;apos;TRB_per_G&amp;apos;, &amp;apos;AST_per_G&amp;apos;, &amp;apos;WS&amp;apos;, &amp;apos;WS_per_48&amp;apos;, &amp;apos;BPM&amp;apos;, &amp;apos;VORP&amp;apos;],
+      dtype=&amp;apos;object&amp;apos;)</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Change-Data-to-Proper-Data-Type">Change Data to Proper Data Type<a class="anchor-link" href="#Change-Data-to-Proper-Data-Type">¶</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [23]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="n">df</span><span class="o">.</span><span class="n">dtypes</span>  <span class="c"># Take a look at data typse in each column</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt output_prompt">Out[23]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>Rk           object
+Pk           object
+Tm           object
+Player       object
+College      object
+Yrs          object
+G            object
+MP           object
+PTS          object
+TRB          object
+AST          object
+FG_Perc      object
+3P_Perc      object
+FT_Perc      object
+MP_per_G     object
+PTS_per_G    object
+TRB_per_G    object
+AST_per_G    object
+WS           object
+WS_per_48    object
+BPM          object
+VORP         object
+dtype: object</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can see that our <code>DataFrame</code> consists of alot columns with data type <code>object</code>.  We can call on the <code>DataFrame</code> method <code>convert_objects()</code> and pass in the parameter <code>convert_numeric=True</code> to convert the columns with numerical strings to the most suitable numeric data type.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [24]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">convert_objects</span><span class="p">(</span><span class="n">convert_numeric</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">dtypes</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt output_prompt">Out[24]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>Rk             int64
+Pk             int64
+Tm            object
+Player        object
+College       object
+Yrs          float64
+G            float64
+MP           float64
+PTS          float64
+TRB          float64
+AST          float64
+FG_Perc      float64
+3P_Perc      float64
+FT_Perc      float64
+MP_per_G     float64
+PTS_per_G    float64
+TRB_per_G    float64
+AST_per_G    float64
+WS           float64
+WS_per_48    float64
+BPM          float64
+VORP         float64
+dtype: object</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Not everything is exactly as we want it to be.  We should convert the columns  <em>Yrs, G, MP, PTS, TRB,</em> and <em>AST</em> to integers using <code>astype()</code>.  But before we can do that we need to deal with some <code>NaN</code>s (Not a Number) or else we will get an error like this:</p>
+<pre><code>ValueError: Cannot convert NA
+</code></pre>
+<h3 id="Dealing-with-the-NaN-values">Dealing with the NaN values<a class="anchor-link" href="#Dealing-with-the-NaN-values">¶</a></h3><p>The <code>NaN</code>s in our data indicate that a player has not played in the NBA.  We should replace these <code>NaN</code>s with 0s to indicate that the player has not accumulated any stats.</p>
+<p>Replacing <code>NaN</code> values 0s is pretty straightfoward. We just pass in the value 0 into the <code>fillna()</code> method to replace all the <code>NaN</code>s with 0s.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [25]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[:]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c"># index all the columns and fill in the 0s</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now that there are no more missing values in our data we can call <code>astype()</code>.</p>
+<p>To get the columns we will convert we can use <code>.loc</code>, which allows us to access the rows and columns of our <code>DataFrame</code> by using their labels.  Using <code>loc</code> we can slice consecutive rows or columns in a similar mannner that we slice <code>lists</code>, except the slice ranges in <code>.loc</code> are inclusive on both ends of the indicated slice.</p>
+<p>The typical format for slicing with <code>.loc</code> is as follows:</p>
+<pre><code>df.loc[first_row_label:last_row_label , first_col_label:last_col_label]
+
+</code></pre>
+<p>(Read more about indexing <code>pandas DataFrames</code> <a href="http://pandas.pydata.org/pandas-docs/stable/indexing.html">here)</a></p>
+<p>Since the columns  <em>Yrs, G, MP, PTS, TRB,</em> and <em>AST</em> are consecutive columns we can retrieve them by slicing our <code>DataFrame</code> using <code>loc</code> and then convert their data type.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [26]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="s">'Yrs'</span><span class="p">:</span><span class="s">'AST'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="s">'Yrs'</span><span class="p">:</span><span class="s">'AST'</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [27]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span> <span class="c"># All NaNs are now replaced with 0s</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt output_prompt">Out[27]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>Rk</th>
+<th>Pk</th>
+<th>Tm</th>
+<th>Player</th>
+<th>College</th>
+<th>Yrs</th>
+<th>G</th>
+<th>MP</th>
+<th>PTS</th>
+<th>TRB</th>
+<th>...</th>
+<th>3P_Perc</th>
+<th>FT_Perc</th>
+<th>MP_per_G</th>
+<th>PTS_per_G</th>
+<th>TRB_per_G</th>
+<th>AST_per_G</th>
+<th>WS</th>
+<th>WS_per_48</th>
+<th>BPM</th>
+<th>VORP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>1</td>
+<td>1</td>
+<td>CLE</td>
+<td>Andrew Wiggins</td>
+<td>University of Kansas</td>
+<td>1</td>
+<td>82</td>
+<td>2969</td>
+<td>1387</td>
+<td>374</td>
+<td>...</td>
+<td>0.310</td>
+<td>0.760</td>
+<td>36.2</td>
+<td>16.9</td>
+<td>4.6</td>
+<td>2.1</td>
+<td>2.1</td>
+<td>0.034</td>
+<td>-2.3</td>
+<td>-0.2</td>
+</tr>
+<tr>
+<th>1</th>
+<td>2</td>
+<td>2</td>
+<td>MIL</td>
+<td>Jabari Parker</td>
+<td>Duke University</td>
+<td>1</td>
+<td>25</td>
+<td>738</td>
+<td>308</td>
+<td>138</td>
+<td>...</td>
+<td>0.250</td>
+<td>0.697</td>
+<td>29.5</td>
+<td>12.3</td>
+<td>5.5</td>
+<td>1.7</td>
+<td>1.3</td>
+<td>0.088</td>
+<td>-1.2</td>
+<td>0.1</td>
+</tr>
+<tr>
+<th>2</th>
+<td>3</td>
+<td>3</td>
+<td>PHI</td>
+<td>Joel Embiid</td>
+<td>University of Kansas</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>...</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.000</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+<tr>
+<th>3</th>
+<td>4</td>
+<td>4</td>
+<td>ORL</td>
+<td>Aaron Gordon</td>
+<td>University of Arizona</td>
+<td>1</td>
+<td>47</td>
+<td>797</td>
+<td>243</td>
+<td>169</td>
+<td>...</td>
+<td>0.271</td>
+<td>0.721</td>
+<td>17.0</td>
+<td>5.2</td>
+<td>3.6</td>
+<td>0.7</td>
+<td>1.0</td>
+<td>0.060</td>
+<td>-2.8</td>
+<td>-0.2</td>
+</tr>
+<tr>
+<th>4</th>
+<td>5</td>
+<td>5</td>
+<td>UTA</td>
+<td>Dante Exum</td>
+<td></td>
+<td>1</td>
+<td>82</td>
+<td>1817</td>
+<td>393</td>
+<td>131</td>
+<td>...</td>
+<td>0.314</td>
+<td>0.625</td>
+<td>22.2</td>
+<td>4.8</td>
+<td>1.6</td>
+<td>2.4</td>
+<td>-0.1</td>
+<td>-0.003</td>
+<td>-3.8</td>
+<td>-0.8</td>
+</tr>
+</tbody>
+</table>
+<p>5 rows × 22 columns</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [28]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="n">df</span><span class="o">.</span><span class="n">dtypes</span> <span class="c"># and we have the datatyps we want</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt output_prompt">Out[28]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>Rk             int64
+Pk             int64
+Tm            object
+Player        object
+College       object
+Yrs            int64
+G              int64
+MP             int64
+PTS            int64
+TRB            int64
+AST            int64
+FG_Perc      float64
+3P_Perc      float64
+FT_Perc      float64
+MP_per_G     float64
+PTS_per_G    float64
+TRB_per_G    float64
+AST_per_G    float64
+WS           float64
+WS_per_48    float64
+BPM          float64
+VORP         float64
+dtype: object</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Adding-and-Deleting-Columns">Adding and Deleting Columns<a class="anchor-link" href="#Adding-and-Deleting-Columns">¶</a></h3><p>Now lets finally add a <em>Draft_Yr</em> column to indicate the draft class year.  We do this by using the <code>insert()</code> method.  The first parameter is where we are inserting the column.  The second parameter we pass in is the name of the column.  The third parameter is the value(s) for that column</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [29]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="n">df</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s">'Draft_Yr'</span><span class="p">,</span> <span class="mi">2014</span><span class="p">)</span>  
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now to delete the <em>Rk</em> column as it is redundant since we have the <em>Pk</em> column. To delete a column we use the <code>drop()</code> method.  We pass in the name of the column we want to delete, the axis we are deleting along, and set <code>inplace</code> to <code>True</code> so that the changes occur inplace and we don't have to reassign the df to itself.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [30]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s">'Rk'</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s">'columns'</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [31]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="n">df</span><span class="o">.</span><span class="n">columns</span>  <span class="c"># checkout our revised columns</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt output_prompt">Out[31]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>Index([&amp;apos;Draft_Yr&amp;apos;, &amp;apos;Pk&amp;apos;, &amp;apos;Tm&amp;apos;, &amp;apos;Player&amp;apos;, &amp;apos;College&amp;apos;, &amp;apos;Yrs&amp;apos;, &amp;apos;G&amp;apos;, &amp;apos;MP&amp;apos;, &amp;apos;PTS&amp;apos;,
+       &amp;apos;TRB&amp;apos;, &amp;apos;AST&amp;apos;, &amp;apos;FG_Perc&amp;apos;, &amp;apos;3P_Perc&amp;apos;, &amp;apos;FT_Perc&amp;apos;, &amp;apos;MP_per_G&amp;apos;, &amp;apos;PTS_per_G&amp;apos;,
+       &amp;apos;TRB_per_G&amp;apos;, &amp;apos;AST_per_G&amp;apos;, &amp;apos;WS&amp;apos;, &amp;apos;WS_per_48&amp;apos;, &amp;apos;BPM&amp;apos;, &amp;apos;VORP&amp;apos;],
+      dtype=&amp;apos;object&amp;apos;)</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Scraping-and-Cleaning-Data-for-Drafts-from-1966">Scraping and Cleaning Data for Drafts from 1966<a class="anchor-link" href="#Scraping-and-Cleaning-Data-for-Drafts-from-1966">¶</a></h2><p>Scraping and cleaning the data from all previous drafts follows a similar procedure to the one we used for the 2014 draft. The main difference is that we have to to do it multiple times and then combine the data into one large <code>DataFrame</code> .</p>
+<h3 id="Scraping">Scraping<a class="anchor-link" href="#Scraping">¶</a></h3><p>First lets create a URL template that will allow us to access the web page for each year.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [32]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="n">url_template</span> <span class="o">=</span> <span class="s">"http://www.basketball-reference.com/draft/NBA_{year}.html"</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [33]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="c"># create an empty DataFrame</span>
+<span class="n">draft_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now we are going to create a <code>for</code> loop to scrape and append our data to our big  <code>DataFrame</code>.  It does take a bit to get all the data.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [34]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1966</span><span class="p">,</span> <span class="mi">2015</span><span class="p">):</span>  <span class="c"># for each year</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">url_template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="n">year</span><span class="p">)</span>  <span class="c"># get the url</span>
+    
+    <span class="n">html</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>  <span class="c"># get the html</span>
+    <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">html</span><span class="p">,</span> <span class="s">'html5lib'</span><span class="p">)</span> <span class="c"># create our BS object</span>
+    
+
+    <span class="c"># get our player data</span>
+    <span class="n">data_rows</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s">'tr'</span><span class="p">)[</span><span class="mi">2</span><span class="p">:]</span> 
+    <span class="n">player_data</span> <span class="o">=</span> <span class="p">[[</span><span class="n">td</span><span class="o">.</span><span class="n">getText</span><span class="p">()</span> <span class="k">for</span> <span class="n">td</span> <span class="ow">in</span> <span class="n">data_rows</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s">'td'</span><span class="p">)]</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data_rows</span><span class="p">))]</span>
+    
+    <span class="c"># Turn yearly data into a DatFrame</span>
+    <span class="n">year_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">player_data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">column_headers</span><span class="p">)</span>
+    <span class="c"># create and insert the Draft_Yr column</span>
+    <span class="n">year_df</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s">'Draft_Yr'</span><span class="p">,</span> <span class="n">year</span><span class="p">)</span>
+    
+    <span class="c"># Append to the big dataframe</span>
+    <span class="n">draft_df</span> <span class="o">=</span> <span class="n">draft_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">year_df</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>NOTE:</strong> I had to pass <code>html5lib</code> as an extra argument into the <code>BeautifulSoup</code> contructor. <code>html5lib</code> is a third-party Python parser that Beautiful Soup can use. The reason I had to do this was because my default parser (<code>lxml</code>, another thrid party parser) was not extracting all of the table rows for some of the years.</p>
+<p>For more about parsers and Beautiful Soup check out the
+<a href="http://www.crummy.com/software/BeautifulSoup/bs4/doc/#installing-a-parser">documentation</a></p>
+<p>Lets take a look at the first and last few rows of our data</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [35]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="n">draft_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt output_prompt">Out[35]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>Draft_Yr</th>
+<th>Rk</th>
+<th>Pk</th>
+<th>Tm</th>
+<th>Player</th>
+<th>College</th>
+<th>Yrs</th>
+<th>G</th>
+<th>MP</th>
+<th>PTS</th>
+<th>...</th>
+<th>3P%</th>
+<th>FT%</th>
+<th>MP</th>
+<th>PTS</th>
+<th>TRB</th>
+<th>AST</th>
+<th>WS</th>
+<th>WS/48</th>
+<th>BPM</th>
+<th>VORP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>1966</td>
+<td>1</td>
+<td>1</td>
+<td>NYK</td>
+<td>Cazzie Russell</td>
+<td>University of Michigan</td>
+<td>12</td>
+<td>817</td>
+<td>22213</td>
+<td>12377</td>
+<td>...</td>
+<td></td>
+<td>.827</td>
+<td>27.2</td>
+<td>15.1</td>
+<td>3.8</td>
+<td>2.2</td>
+<td>51.7</td>
+<td>.112</td>
+<td>-2.0</td>
+<td>0.1</td>
+</tr>
+<tr>
+<th>1</th>
+<td>1966</td>
+<td>2</td>
+<td>2</td>
+<td>DET</td>
+<td>Dave Bing</td>
+<td>Syracuse University</td>
+<td>12</td>
+<td>901</td>
+<td>32769</td>
+<td>18327</td>
+<td>...</td>
+<td></td>
+<td>.775</td>
+<td>36.4</td>
+<td>20.3</td>
+<td>3.8</td>
+<td>6.0</td>
+<td>68.8</td>
+<td>.101</td>
+<td>0.6</td>
+<td>8.5</td>
+</tr>
+<tr>
+<th>2</th>
+<td>1966</td>
+<td>3</td>
+<td>3</td>
+<td>SFW</td>
+<td>Clyde Lee</td>
+<td>Vanderbilt University</td>
+<td>10</td>
+<td>742</td>
+<td>19885</td>
+<td>5733</td>
+<td>...</td>
+<td></td>
+<td>.614</td>
+<td>26.8</td>
+<td>7.7</td>
+<td>10.3</td>
+<td>1.1</td>
+<td>33.5</td>
+<td>.081</td>
+<td>-2.4</td>
+<td>-0.6</td>
+</tr>
+<tr>
+<th>3</th>
+<td>1966</td>
+<td>4</td>
+<td>4</td>
+<td>STL</td>
+<td>Lou Hudson</td>
+<td>University of Minnesota</td>
+<td>13</td>
+<td>890</td>
+<td>29794</td>
+<td>17940</td>
+<td>...</td>
+<td></td>
+<td>.797</td>
+<td>33.5</td>
+<td>20.2</td>
+<td>4.4</td>
+<td>2.7</td>
+<td>81.0</td>
+<td>.131</td>
+<td>0.1</td>
+<td>5.9</td>
+</tr>
+<tr>
+<th>4</th>
+<td>1966</td>
+<td>5</td>
+<td>5</td>
+<td>BAL</td>
+<td>Jack Marin</td>
+<td>Duke University</td>
+<td>11</td>
+<td>849</td>
+<td>24590</td>
+<td>12541</td>
+<td>...</td>
+<td></td>
+<td>.843</td>
+<td>29.0</td>
+<td>14.8</td>
+<td>5.2</td>
+<td>2.1</td>
+<td>59.3</td>
+<td>.116</td>
+<td>-2.8</td>
+<td>-1.4</td>
+</tr>
+</tbody>
+</table>
+<p>5 rows × 23 columns</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [36]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="n">draft_df</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt output_prompt">Out[36]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>Draft_Yr</th>
+<th>Rk</th>
+<th>Pk</th>
+<th>Tm</th>
+<th>Player</th>
+<th>College</th>
+<th>Yrs</th>
+<th>G</th>
+<th>MP</th>
+<th>PTS</th>
+<th>...</th>
+<th>3P%</th>
+<th>FT%</th>
+<th>MP</th>
+<th>PTS</th>
+<th>TRB</th>
+<th>AST</th>
+<th>WS</th>
+<th>WS/48</th>
+<th>BPM</th>
+<th>VORP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>6445</th>
+<td>2014</td>
+<td>56</td>
+<td>56</td>
+<td>DEN</td>
+<td>Roy Devyn Marble</td>
+<td>University of Iowa</td>
+<td>1</td>
+<td>16</td>
+<td>208</td>
+<td>37</td>
+<td>...</td>
+<td>.182</td>
+<td>.313</td>
+<td>13.0</td>
+<td>2.3</td>
+<td>1.9</td>
+<td>1.1</td>
+<td>-0.1</td>
+<td>-.031</td>
+<td>-4.5</td>
+<td>-0.1</td>
+</tr>
+<tr>
+<th>6446</th>
+<td>2014</td>
+<td>57</td>
+<td>57</td>
+<td>IND</td>
+<td>Louis Labeyrie</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>...</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<th>6447</th>
+<td>2014</td>
+<td>58</td>
+<td>58</td>
+<td>SAS</td>
+<td>Jordan McRae</td>
+<td>University of Tennessee</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>...</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<th>6448</th>
+<td>2014</td>
+<td>59</td>
+<td>59</td>
+<td>TOR</td>
+<td>Xavier Thames</td>
+<td>San Diego State University</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>...</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<th>6449</th>
+<td>2014</td>
+<td>60</td>
+<td>60</td>
+<td>SAS</td>
+<td>Cory Jefferson</td>
+<td>Baylor University</td>
+<td>1</td>
+<td>50</td>
+<td>531</td>
+<td>183</td>
+<td>...</td>
+<td>.133</td>
+<td>.574</td>
+<td>10.6</td>
+<td>3.7</td>
+<td>2.9</td>
+<td>0.3</td>
+<td>0.8</td>
+<td>.071</td>
+<td>-3.7</td>
+<td>-0.2</td>
+</tr>
+</tbody>
+</table>
+<p>5 rows × 23 columns</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Now-we-clean">Now we clean<a class="anchor-link" href="#Now-we-clean">¶</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [37]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="c"># Convert data to proper data types</span>
+<span class="n">draft_df</span> <span class="o">=</span> <span class="n">draft_df</span><span class="o">.</span><span class="n">convert_objects</span><span class="p">(</span><span class="n">convert_numeric</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
+
+<span class="c"># Get rid of the rows full of null values</span>
+<span class="n">draft_df</span> <span class="o">=</span> <span class="n">draft_df</span><span class="p">[</span><span class="n">draft_df</span><span class="o">.</span><span class="n">Player</span><span class="o">.</span><span class="n">notnull</span><span class="p">()]</span>
+
+<span class="c"># Replace NaNs with 0s</span>
+<span class="n">draft_df</span> <span class="o">=</span> <span class="n">draft_df</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c"># Rename Columns</span>
+<span class="n">draft_df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s">'WS/48'</span><span class="p">:</span><span class="s">'WS_per_48'</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
+<span class="c"># Change % symbol</span>
+<span class="n">draft_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">draft_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">'%'</span><span class="p">,</span> <span class="s">'_Perc'</span><span class="p">)</span>
+<span class="c"># Add per_G to per game stats</span>
+<span class="n">draft_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">15</span><span class="p">:</span><span class="mi">19</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">draft_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">15</span><span class="p">:</span><span class="mi">19</span><span class="p">][</span><span class="n">col</span><span class="p">]</span> <span class="o">+</span> 
+                                  <span class="s">"_per_G"</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)]</span>
+
+<span class="c"># Changing the Data Types to int</span>
+<span class="n">draft_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="s">'Yrs'</span><span class="p">:</span><span class="s">'AST'</span><span class="p">]</span> <span class="o">=</span> <span class="n">draft_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="s">'Yrs'</span><span class="p">:</span><span class="s">'AST'</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="c"># Delete the 'Rk' column</span>
+<span class="n">draft_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s">'Rk'</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s">'columns'</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's see how our data looks now.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [38]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="n">draft_df</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt output_prompt">Out[38]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>Index([&amp;apos;Draft_Yr&amp;apos;, &amp;apos;Pk&amp;apos;, &amp;apos;Tm&amp;apos;, &amp;apos;Player&amp;apos;, &amp;apos;College&amp;apos;, &amp;apos;Yrs&amp;apos;, &amp;apos;G&amp;apos;, &amp;apos;MP&amp;apos;, &amp;apos;PTS&amp;apos;,
+       &amp;apos;TRB&amp;apos;, &amp;apos;AST&amp;apos;, &amp;apos;FG_Perc&amp;apos;, &amp;apos;3P_Perc&amp;apos;, &amp;apos;FT_Perc&amp;apos;, &amp;apos;MP_per_G&amp;apos;, &amp;apos;PTS_per_G&amp;apos;,
+       &amp;apos;TRB_per_G&amp;apos;, &amp;apos;AST_per_G&amp;apos;, &amp;apos;WS&amp;apos;, &amp;apos;WS_per_48&amp;apos;, &amp;apos;BPM&amp;apos;, &amp;apos;VORP&amp;apos;],
+      dtype=&amp;apos;object&amp;apos;)</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [39]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="n">draft_df</span><span class="o">.</span><span class="n">dtypes</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt output_prompt">Out[39]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>Draft_Yr       int64
+Pk           float64
+Tm            object
+Player        object
+College       object
+Yrs            int64
+G              int64
+MP             int64
+PTS            int64
+TRB            int64
+AST            int64
+FG_Perc      float64
+3P_Perc      float64
+FT_Perc      float64
+MP_per_G     float64
+PTS_per_G    float64
+TRB_per_G    float64
+AST_per_G    float64
+WS           float64
+WS_per_48    float64
+BPM          float64
+VORP         float64
+dtype: object</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [40]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="n">draft_df</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="c"># No missing values in our DataFrame</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt output_prompt">Out[40]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>Draft_Yr     0
+Pk           0
+Tm           0
+Player       0
+College      0
+Yrs          0
+G            0
+MP           0
+PTS          0
+TRB          0
+AST          0
+FG_Perc      0
+3P_Perc      0
+FT_Perc      0
+MP_per_G     0
+PTS_per_G    0
+TRB_per_G    0
+AST_per_G    0
+WS           0
+WS_per_48    0
+BPM          0
+VORP         0
+dtype: int64</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Writing-Out-Data-to-a-CSV-File">Writing Out Data to a CSV File<a class="anchor-link" href="#Writing-Out-Data-to-a-CSV-File">¶</a></h2><p>Using the <code>to_csv()</code> method we can easily write out our <code>DataFrame</code> to a csv file.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [41]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="n">draft_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s">"draft_data_1966_to_2014.csv"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Finally, lets print out the version of Python and versions of the libraries we used.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [42]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="c"># sys allows us to get the info for the version of Python we use</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">urllib.request</span>
+<span class="kn">import</span> <span class="nn">bs4</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [43]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="nb">print</span><span class="p">(</span><span class="s">'Python version:'</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s">'Urllib.request version:'</span><span class="p">,</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s">'BeautifulSoup version:'</span><span class="p">,</span> <span class="n">bs4</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s">'Pandas version:'</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Python version: sys.version_info(major=3, minor=4, micro=3, releaselevel=&amp;apos;final&amp;apos;, serial=0)
+Urllib.request version: 3.4
+BeautifulSoup version: 4.3.2
+Pandas version: 0.16.2
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>You can find the ipython notebook and data used in this blog post <a href="https://github.com/savvastj/NBA_stuff">here</a>.</p>
+</div>
+</div>
+</div>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: 'center'," +
+        "    displayIndent: '0em'," +
+        "    showMathMenu: true," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['$','$'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
+        "    } " +
+        "}); ";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2015 Savvas Tjortjoglou
+            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="/theme/js/respond.min.js"></script>
+
+    <!-- Google Analytics -->
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-50819746-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+    <!-- End Google Analytics Code -->
+
+</body>
+</html>
