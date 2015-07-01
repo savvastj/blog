@@ -6,7 +6,7 @@ LOAD_CONTENT_CACHE = False
 
 AUTHOR = 'Savvas Tjortjoglou'
 SITENAME = 'Savvas Tjortjoglou'
-SITEURL = 'savvastjortjoglou.com'
+SITEURL = ''
 
 
 TIMEZONE = 'America/New_York'
@@ -36,6 +36,8 @@ DEFAULT_PAGINATION = 5
 #RELATIVE_URLS = True
 
 GOOGLE_ANALYTICS = "UA-50819746-1"
+# DISQUS_SITENAME = "savvasblog"
+
 
 DISPLAY_CATEGORIES_ON_MENU = False
 
@@ -72,9 +74,6 @@ STATIC_PATHS = ['images', 'code', 'extra/CNAME']
 # Used for custom domain name
 EXTRA_PATH_METADATA = {'extra/CNAME': {'path': 'CNAME'}, }
 
-
-
-# DISQUS_SITENAME = "savvasblog"
 
 SHARIFF = True
 SHARIFF_LANG = True
