@@ -8,7 +8,6 @@ AUTHOR = 'Savvas Tjortjoglou'
 SITENAME = 'Savvas Tjortjoglou'
 SITEURL = ''
 
-
 TIMEZONE = 'America/New_York'
 
 DEFAULT_LANG = 'en'
@@ -53,7 +52,6 @@ PLUGINS = ['ipynb',
            'summary']
 
 
-
 # Pygments 
 PYGMENTS_STYLE = 'bw'
 
@@ -64,6 +62,5 @@ STATIC_PATHS = ['images', 'code', 'extra/CNAME']
 # Used for custom domain name
 EXTRA_PATH_METADATA = {'extra/CNAME': {'path': 'CNAME'}, }
 
-
-# SHARIFF = True
-# SHARIFF_LANG = True
+SHARIFF = True
+SHARIFF_LANG = True
