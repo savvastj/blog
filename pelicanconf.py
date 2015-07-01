@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*- #
 from __future__ import unicode_literals
 
+LOAD_CONTENT_CACHE = False
+
 AUTHOR = u'Savvas Tjortjoglou'
 SITENAME = u'Savvas Tjortjoglou'
 SITEURL = ''
@@ -78,3 +80,5 @@ EXTRA_PATH_METADATA = {'extra/CNAME': {'path': 'CNAME'}, }
 
 # DISQUS_SITENAME = "savvasblog"
 
+SHARIFF = True
+SHARIFF_LANG = True
