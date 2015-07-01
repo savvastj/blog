@@ -4,40 +4,35 @@ from __future__ import unicode_literals
 
 LOAD_CONTENT_CACHE = False
 
-AUTHOR = u'Savvas Tjortjoglou'
-SITENAME = u'Savvas Tjortjoglou'
-SITEURL = 'http://savvastjortjoglou.com'
+AUTHOR = 'Savvas Tjortjoglou'
+SITENAME = 'Savvas Tjortjoglou'
+SITEURL = ''
 
 TIMEZONE = 'America/New_York'
 
-DEFAULT_LANG = u'en'
-
-# used for ipynb plugin
-MARKUP = ('md', 'ipynb')
+DEFAULT_LANG = 'en'
 
 # Feed generation is usually not desired when developing
 FEED_ALL_ATOM = None
 CATEGORY_FEED_ATOM = None
 TRANSLATION_FEED_ATOM = None
+AUTHOR_FEED_ATOM = None
+AUTHOR_FEED_RSS = None
 
 # Blogroll
-# LINKS =  (('Pelican', 'http://getpelican.com/'),
-#           ('Python.org', 'http://python.org/'),
-#           ('DataTau', 'http://www.datatau.com/'),
-#           ('Pythonic Perambulations', 'http://jakevdp.github.io/'),
-#           ('Greg Rada', 'http://www.gregreda.com/'),
-#           ('The Spread', 'http://thespread.us/'),)
-          # ('538', 'http://fivethirtyeight.com/'),
-          # ('Wonkblog', 'http://www.washingtonpost.com/blogs/wonkblog/'),
-          # ('Vox', 'http://www.vox.com/'),
-          # ('The Upshot', 'http://www.nytimes.com/upshot/'),
-          # ('Grantland', 'http://grantland.com/'),)
+# LINKS = (('Pelican', 'http://getpelican.com/'),
+#          ('Python.org', 'http://python.org/'),
+#          ('Jinja2', 'http://jinja.pocoo.org/'),
+#          ('You can modify those links in your config file', '#'),)
 
 # Social widget
-# SOCIAL = (('Twitter', 'http://twitter.com/savvas_91'),
-#           ('Github', 'http://github.com/savvastj'),)
+# SOCIAL = (('You can add links in your config file', '#'),
+          # ('Another social link', '#'),)
 
 DEFAULT_PAGINATION = 5
+
+# Uncomment following line if you want document-relative URLs when developing
+#RELATIVE_URLS = True
 
 GOOGLE_ANALYTICS = "UA-50819746-1"
 
