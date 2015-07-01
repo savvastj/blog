@@ -11,6 +11,8 @@ sys.path.append(os.curdir)
 from pelicanconf import *
 
 # SITEURL = 'http://www.savvastjortjoglou.com'
+SITEURL = 'http://savvastjortjoglou.com'
+
 # RELATIVE_URLS = True
 
 FEED_ALL_ATOM = 'feeds/all.atom.xml'
