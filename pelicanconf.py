@@ -6,7 +6,9 @@ LOAD_CONTENT_CACHE = False
 
 AUTHOR = 'Savvas Tjortjoglou'
 SITENAME = 'Savvas Tjortjoglou'
-SITEURL = 'http://savvastjortjoglou.com'
+# SITEURL = 'http://savvastjortjoglou.com'
+SITEURL = ''
+
 
 TIMEZONE = 'America/New_York'
 
@@ -19,10 +21,7 @@ TRANSLATION_FEED_ATOM = None
 
 DEFAULT_PAGINATION = 5
 
-# Uncomment following line if you want document-relative URLs when developing
-#RELATIVE_URLS = True
-
-GOOGLE_ANALYTICS = "UA-50819746-1"
+GOOGLE_ANALYTICS = "UA-50819746-2"
 DISQUS_SITENAME = "savvasblog"
 
 
