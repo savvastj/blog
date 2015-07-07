@@ -6,8 +6,8 @@ LOAD_CONTENT_CACHE = False
 
 AUTHOR = 'Savvas Tjortjoglou'
 SITENAME = 'Savvas Tjortjoglou'
-# SITEURL = 'http://savvastjortjoglou.com'
-SITEURL = ''
+SITEURL = 'http://savvastjortjoglou.com'
+# SITEURL = ''
 
 
 TIMEZONE = 'America/New_York'

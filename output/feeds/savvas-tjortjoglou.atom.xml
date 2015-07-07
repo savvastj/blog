@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Savvas Tjortjoglou</title><link href="/" rel="alternate"></link><link href="/feeds/savvas-tjortjoglou.atom.xml" rel="self"></link><id>/</id><updated>2015-07-07T00:00:00-04:00</updated><entry><title>Learning Python: Part 2 - Visualizing the NBA Draft</title><link href="/nba-draft-part02-visualizing.html" rel="alternate"></link><updated>2015-07-07T00:00:00-04:00</updated><author><name>Savvas Tjortjoglou</name></author><id>tag:,2015-07-07:nba-draft-part02-visualizing.html</id><summary type="html">&lt;style type="text/css"&gt;/*!
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Savvas Tjortjoglou</title><link href="http://savvastjortjoglou.com/" rel="alternate"></link><link href="http://savvastjortjoglou.com/feeds/savvas-tjortjoglou.atom.xml" rel="self"></link><id>http://savvastjortjoglou.com/</id><updated>2015-07-07T00:00:00-04:00</updated><entry><title>Learning Python: Part 2 - Visualizing the NBA Draft</title><link href="http://savvastjortjoglou.com/nba-draft-part02-visualizing.html" rel="alternate"></link><updated>2015-07-07T00:00:00-04:00</updated><author><name>Savvas Tjortjoglou</name></author><id>tag:savvastjortjoglou.com,2015-07-07:nba-draft-part02-visualizing.html</id><summary type="html">&lt;style type="text/css"&gt;/*!
 *
 * IPython notebook
 *
@@ -11146,7 +11146,7 @@ SZIkSc8x2SiUJEmSJEmSJEl6jslGoSRJkiRJkiRJ0nNMNgolSZIkSZIkSZKeY7JRKEmSJEmSJEmS
 &lt;/div&gt;
 &lt;div class="inner_cell"&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;p&gt;We can rewrite the above code using the &lt;code&gt;query()&lt;/code&gt; method. To reference a local variable within our query string we must place '@' in front of its name. &lt;code&gt;pandas&lt;/code&gt; also allows us to use English instead of symbols in our query string.&lt;/p&gt;
+&lt;p&gt;We can rewrite the above code using the &lt;code&gt;query&lt;/code&gt; method. To reference a local variable within our query string we must place '@' in front of its name. &lt;code&gt;pandas&lt;/code&gt; also allows us to use English instead of symbols in our query string.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -12847,7 +12847,7 @@ Pandas version: 0.16.2
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 &lt;/script&gt;
-</summary><category term="Python"></category><category term="NBA"></category><category term="Visualizing"></category></entry><entry><title>Learning Python: Part 1 - Scraping and Cleaning the NBA Draft</title><link href="/nba-draft-part01-scraping.html" rel="alternate"></link><updated>2015-07-01T00:00:00-04:00</updated><author><name>Savvas Tjortjoglou</name></author><id>tag:,2015-07-01:nba-draft-part01-scraping.html</id><summary type="html">&lt;style type="text/css"&gt;/*!
+</summary><category term="Python"></category><category term="NBA"></category><category term="Visualizing"></category></entry><entry><title>Learning Python: Part 1 - Scraping and Cleaning the NBA Draft</title><link href="http://savvastjortjoglou.com/nba-draft-part01-scraping.html" rel="alternate"></link><updated>2015-07-01T00:00:00-04:00</updated><author><name>Savvas Tjortjoglou</name></author><id>tag:savvastjortjoglou.com,2015-07-01:nba-draft-part01-scraping.html</id><summary type="html">&lt;style type="text/css"&gt;/*!
 *
 * IPython notebook
 *
@@ -15007,7 +15007,7 @@ Pandas version: 0.16.2
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 &lt;/script&gt;
-</summary><category term="Python"></category><category term="NBA"></category><category term="Web Scraping"></category></entry><entry><title>Hello World!</title><link href="/hello-world.html" rel="alternate"></link><updated>2015-04-05T08:30:00-04:00</updated><author><name>Savvas Tjortjoglou</name></author><id>tag:,2015-04-05:hello-world.html</id><summary type="html">&lt;!-- PELICAN_END_SUMMARY --&gt;
+</summary><category term="Python"></category><category term="NBA"></category><category term="Web Scraping"></category></entry><entry><title>Hello World!</title><link href="http://savvastjortjoglou.com/hello-world.html" rel="alternate"></link><updated>2015-04-05T08:30:00-04:00</updated><author><name>Savvas Tjortjoglou</name></author><id>tag:savvastjortjoglou.com,2015-04-05:hello-world.html</id><summary type="html">&lt;!-- PELICAN_END_SUMMARY --&gt;
 
-&lt;p&gt;&lt;center&gt;&lt;img src="http://t0.gstatic.com/images?q=tbn:ANd9GcQ7FPifj2hTdhQaRZ1FDuCkpK-jOR04ns7W4f71Kbo8ebNLC1rS" class="[Pelican]" alt="[40 [22]] []" title="[40 [22]] []"&gt;&lt;/center&gt; &lt;/p&gt;
+&lt;p&gt;&lt;center&gt;&lt;img title="[40 [22]] []" alt="[40 [22]] []" class="[Pelican]" src="http://t0.gstatic.com/images?q=tbn:ANd9GcQ7FPifj2hTdhQaRZ1FDuCkpK-jOR04ns7W4f71Kbo8ebNLC1rS"&gt;&lt;/center&gt; &lt;/p&gt;
 &lt;p&gt;My first Post! Finally got a blog up and running using Pelican. &lt;/p&gt;</summary><category term="Pelican"></category></entry></feed>
