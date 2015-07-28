@@ -96,7 +96,7 @@
 &lt;/div&gt;
 &lt;div class="inner_cell"&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;h3 id="Getting-the-data"&gt;Getting the data&lt;a class="anchor-link" href="#Getting-the-data"&gt;¶&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;Getting the data from stats.nba.com is pretty straightforward.  While there isn't a a public API provided by the NBA, we can actually access the API that the NBA uses for stats.nba.com using the &lt;code&gt;requests&lt;/code&gt; library.  &lt;a href="http://www.gregreda.com/2015/02/15/web-scraping-finding-the-api/"&gt;This blog post by Greg Reda&lt;/a&gt; does a great job on explaining how to access this API (or finding an API of any web app for that matter).&lt;/p&gt;
+&lt;h3 id="Getting-the-data"&gt;Getting the data&lt;a class="anchor-link" href="#Getting-the-data"&gt;¶&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;Getting the data from stats.nba.com is pretty straightforward.  While there isn't a a public API provided by the NBA, we can actually access the API that the NBA uses for stats.nba.com using the &lt;code&gt;requests&lt;/code&gt; library.  &lt;a href="http://www.gregreda.com/2015/02/15/web-scraping-finding-the-api/"&gt;This blog post by Greg Reda&lt;/a&gt; does a great job on explaining how to access this API.&lt;/p&gt;
 &lt;p&gt;To scrape James Harden's shot chart data we will use this &lt;a href="http://stats.nba.com/stats/shotchartdetail?Period=0&amp;amp;VsConference=&amp;amp;LeagueID=00&amp;amp;LastNGames=0&amp;amp;TeamID=0&amp;amp;Position=&amp;amp;Location=&amp;amp;Outcome=&amp;amp;ContextMeasure=FGA&amp;amp;DateFrom=&amp;amp;StartPeriod=&amp;amp;DateTo=&amp;amp;OpponentTeamID=0&amp;amp;ContextFilter=&amp;amp;RangeType=&amp;amp;Season=2014-15&amp;amp;AheadBehind=&amp;amp;PlayerID=201935&amp;amp;EndRange=&amp;amp;VsDivision=&amp;amp;PointDiff=&amp;amp;RookieYear=&amp;amp;GameSegment=&amp;amp;Month=0&amp;amp;ClutchTime=&amp;amp;StartRange=&amp;amp;EndPeriod=&amp;amp;SeasonType=Regular+Season&amp;amp;SeasonSegment=&amp;amp;GameID="&gt;url&lt;/a&gt;:&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -25843,5 +25843,5 @@ Pandas version: 0.16.2
 &lt;/script&gt;
 </summary><category term="Python"></category><category term="NBA"></category><category term="Web Scraping"></category></entry><entry><title>Hello World!</title><link href="http://savvastjortjoglou.com/hello-world.html" rel="alternate"></link><updated>2015-04-05T08:30:00-04:00</updated><author><name>Savvas Tjortjoglou</name></author><id>tag:savvastjortjoglou.com,2015-04-05:hello-world.html</id><summary type="html">&lt;!-- PELICAN_END_SUMMARY --&gt;
 
-&lt;p&gt;&lt;center&gt;&lt;img src="http://t0.gstatic.com/images?q=tbn:ANd9GcQ7FPifj2hTdhQaRZ1FDuCkpK-jOR04ns7W4f71Kbo8ebNLC1rS" title="[40 [22]] []" alt="[40 [22]] []" class="[Pelican]"&gt;&lt;/center&gt; &lt;/p&gt;
+&lt;p&gt;&lt;center&gt;&lt;img title="[40 [22]] []" class="[Pelican]" alt="[40 [22]] []" src="http://t0.gstatic.com/images?q=tbn:ANd9GcQ7FPifj2hTdhQaRZ1FDuCkpK-jOR04ns7W4f71Kbo8ebNLC1rS"&gt;&lt;/center&gt; &lt;/p&gt;
 &lt;p&gt;My first Post! Finally got a blog up and running using Pelican. &lt;/p&gt;</summary><category term="Pelican"></category></entry></feed>
