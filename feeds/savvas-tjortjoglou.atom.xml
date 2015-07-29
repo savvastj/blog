@@ -7597,7 +7597,7 @@ x4q+skKPHj169DhW9IyoR48ePXocK3pG1KNHjx49jhU9I+rRo0ePHseKnhH16NGjR49jRc+IevTo
 &lt;span class="c"&gt;# A joint plot has 3 Axes, the first one called ax_joint &lt;/span&gt;
 &lt;span class="c"&gt;# is the one we want to draw our court onto and adjust some other settings&lt;/span&gt;
 &lt;span class="n"&gt;ax&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;joint_shot_chart&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ax_joint&lt;/span&gt;
-&lt;span class="n"&gt;draw_court&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ax&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="c"&gt;#, "white", 1)&lt;/span&gt;
+&lt;span class="n"&gt;draw_court&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ax&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
 &lt;span class="c"&gt;# Adjust the axis limits and orientation of the plot in order&lt;/span&gt;
 &lt;span class="c"&gt;# to plot half court, with the hoop by the top of the plot&lt;/span&gt;
@@ -9118,11 +9118,9 @@ xKEU9kVEREREHOr/A2aQa4dM3XZrAAAAAElFTkSuQmCC
 &lt;span class="n"&gt;joint_shot_chart&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fig&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;set_size_inches&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;12&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;11&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
 &lt;span class="c"&gt;# A joint plot has 3 Axes, the first one called ax_joint &lt;/span&gt;
-&lt;span class="c"&gt;# is the one we want to draw our court onto and adjust some other settings&lt;/span&gt;
+&lt;span class="c"&gt;# is the one we want to draw our court onto &lt;/span&gt;
 &lt;span class="n"&gt;ax&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;joint_shot_chart&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ax_joint&lt;/span&gt;
-&lt;span class="n"&gt;draw_court&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ax&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="c"&gt;#, color='white', lw=1)&lt;/span&gt;
-
-
+&lt;span class="n"&gt;draw_court&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ax&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
 &lt;span class="c"&gt;# Adjust the axis limits and orientation of the plot in order&lt;/span&gt;
 &lt;span class="c"&gt;# to plot half court, with the hoop by the top of the plot&lt;/span&gt;
@@ -10779,7 +10777,7 @@ fwNNiUQAAAAASUVORK5CYII=
 &lt;span class="c"&gt;# A joint plot has 3 Axes, the first one called ax_joint &lt;/span&gt;
 &lt;span class="c"&gt;# is the one we want to draw our court onto and adjust some other settings&lt;/span&gt;
 &lt;span class="n"&gt;ax&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;joint_shot_chart&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ax_joint&lt;/span&gt;
-&lt;span class="n"&gt;draw_court&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ax&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="c"&gt;#, "white", 1)&lt;/span&gt;
+&lt;span class="n"&gt;draw_court&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ax&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
 &lt;span class="c"&gt;# Adjust the axis limits and orientation of the plot in order&lt;/span&gt;
 &lt;span class="c"&gt;# to plot half court, with the hoop by the top of the plot&lt;/span&gt;
@@ -27425,5 +27423,5 @@ Pandas version: 0.16.2
 &lt;/script&gt;
 </summary><category term="Python"></category><category term="NBA"></category><category term="Web Scraping"></category></entry><entry><title>Hello World!</title><link href="http://savvastjortjoglou.com/hello-world.html" rel="alternate"></link><updated>2015-04-05T08:30:00-04:00</updated><author><name>Savvas Tjortjoglou</name></author><id>tag:savvastjortjoglou.com,2015-04-05:hello-world.html</id><summary type="html">&lt;!-- PELICAN_END_SUMMARY --&gt;
 
-&lt;p&gt;&lt;center&gt;&lt;img title="[40 [22]] []" alt="[40 [22]] []" class="[Pelican]" src="http://t0.gstatic.com/images?q=tbn:ANd9GcQ7FPifj2hTdhQaRZ1FDuCkpK-jOR04ns7W4f71Kbo8ebNLC1rS"&gt;&lt;/center&gt; &lt;/p&gt;
+&lt;p&gt;&lt;center&gt;&lt;img alt="[40 [22]] []" src="http://t0.gstatic.com/images?q=tbn:ANd9GcQ7FPifj2hTdhQaRZ1FDuCkpK-jOR04ns7W4f71Kbo8ebNLC1rS" class="[Pelican]" title="[40 [22]] []"&gt;&lt;/center&gt; &lt;/p&gt;
 &lt;p&gt;My first Post! Finally got a blog up and running using Pelican. &lt;/p&gt;</summary><category term="Pelican"></category></entry></feed>
