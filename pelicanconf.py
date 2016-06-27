@@ -40,9 +40,11 @@ BOOTSTRAP_NAVBAR_INVERSE = False
 # Hide the side bar
 HIDE_SIDEBAR = True
 
+MARKUP = ('md', 'ipynb')
+
 #Plugins
 PLUGIN_PATHS = ['/home/savvas-mint/repos/blog_env/pelican-plugins']
-PLUGINS = ['pelican-ipynb', 
+PLUGINS = ['ipynb.markup', 
             'liquid_tags.img', 
             'liquid_tags.video',
            'liquid_tags.youtube', 
