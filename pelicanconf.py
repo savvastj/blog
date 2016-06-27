@@ -29,7 +29,7 @@ DISPLAY_CATEGORIES_ON_MENU = False
 
 # Uncomment following line if you want document-relative URLs when developing
 RELATIVE_URLS = False
-THEME = "/home/savvas/PyStuff/blog_env/pelican-themes/pelican-bootstrap3"
+THEME = "/home/savvas/repos/blog_env/pelican-themes/pelican-bootstrap3"
 
 # Bootswatch THEME
 BOOTSTRAP_THEME = 'yeti'
@@ -41,7 +41,7 @@ BOOTSTRAP_NAVBAR_INVERSE = False
 HIDE_SIDEBAR = True
 
 #Plugins
-PLUGIN_PATHS = ['/home/savvas/PyStuff/blog_env/pelican-plugins']
+PLUGIN_PATHS = ['/home/savvas/repos/blog_env/pelican-plugins']
 PLUGINS = ['ipynb', 
             'liquid_tags.img', 
             'liquid_tags.video',
