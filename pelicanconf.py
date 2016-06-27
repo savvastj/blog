@@ -42,7 +42,7 @@ HIDE_SIDEBAR = True
 
 #Plugins
 PLUGIN_PATHS = ['/home/savvas-mint/repos/blog_env/pelican-plugins']
-PLUGINS = ['pelican-ipynb.ipynb, 
+PLUGINS = ['pelican-ipynb.ipynb", 
             'liquid_tags.img', 
             'liquid_tags.video',
            'liquid_tags.youtube', 
