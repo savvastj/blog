@@ -65,3 +65,6 @@ EXTRA_PATH_METADATA = {'extra/CNAME': {'path': 'CNAME'}, }
 
 SHARIFF = True
 SHARIFF_LANG = True
+
+# Use ummary from Sumary section of ipynb-meta
+IPYNB_USE_META_SUMMARY = True
