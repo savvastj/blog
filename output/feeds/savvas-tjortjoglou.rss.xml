@@ -1025,7 +1025,7 @@ h6:hover .anchor-link {
 &lt;/div&gt;
 &lt;div class="inner_cell"&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;p&gt;&lt;img src="Selection_001.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://raw.githubusercontent.com/savvastj/nfl_draft/master/Selection_001.png" /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -53404,5 +53404,5 @@ Pandas version: 0.16.2
 &lt;/script&gt;
 </description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Savvas Tjortjoglou</dc:creator><pubDate>Wed, 01 Jul 2015 00:00:00 -0400</pubDate><guid isPermaLink="false">tag:savvastjortjoglou.com,2015-07-01:nba-draft-part01-scraping.html</guid><category>Python</category><category>NBA</category><category>Web Scraping</category></item><item><title>Hello World!</title><link>http://savvastjortjoglou.com/hello-world.html</link><description>&lt;!-- PELICAN_END_SUMMARY --&gt;
 
-&lt;p&gt;&lt;center&gt;&lt;img title="[40 [22]] []" class="[Pelican]" src="http://t0.gstatic.com/images?q=tbn:ANd9GcQ7FPifj2hTdhQaRZ1FDuCkpK-jOR04ns7W4f71Kbo8ebNLC1rS" alt="[40 [22]] []"&gt;&lt;/center&gt; &lt;/p&gt;
+&lt;p&gt;&lt;center&gt;&lt;img alt="[40 [22]] []" title="[40 [22]] []" class="[Pelican]" src="http://t0.gstatic.com/images?q=tbn:ANd9GcQ7FPifj2hTdhQaRZ1FDuCkpK-jOR04ns7W4f71Kbo8ebNLC1rS"&gt;&lt;/center&gt; &lt;/p&gt;
 &lt;p&gt;My first Post! Finally got a blog up and running using Pelican. &lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Savvas Tjortjoglou</dc:creator><pubDate>Sun, 05 Apr 2015 08:30:00 -0400</pubDate><guid isPermaLink="false">tag:savvastjortjoglou.com,2015-04-05:hello-world.html</guid><category>Pelican</category></item></channel></rss>
