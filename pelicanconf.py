@@ -19,7 +19,7 @@ FEED_ALL_ATOM = None
 CATEGORY_FEED_ATOM = None
 TRANSLATION_FEED_ATOM = None
 
-DEFAULT_PAGINATION = 5
+DEFAULT_PAGINATION = 10
 
 GOOGLE_ANALYTICS = "UA-50819746-2"
 DISQUS_SITENAME = "savvasblog"
@@ -32,7 +32,7 @@ RELATIVE_URLS = False
 THEME = "/home/savvas-mint/repos/blog_env/pelican-themes/pelican-bootstrap3"
 
 # Bootswatch THEME
-BOOTSTRAP_THEME = 'yeti'
+BOOTSTRAP_THEME = 'cosmo'
 
 # Set to blue version of creative which is based on yeti
 BOOTSTRAP_NAVBAR_INVERSE = False
