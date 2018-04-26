@@ -29,7 +29,7 @@ DISPLAY_CATEGORIES_ON_MENU = False
 
 # Uncomment following line if you want document-relative URLs when developing
 RELATIVE_URLS = False
-THEME = "/home/savvas-mint/repos/blog_env/pelican-themes/pelican-bootstrap3"
+THEME = "/home/savvas/repos/blog_env/pelican-themes/pelican-bootstrap3"
 
 # Bootswatch THEME
 BOOTSTRAP_THEME = 'cosmo'
@@ -43,7 +43,7 @@ HIDE_SIDEBAR = True
 MARKUP = ('md', 'ipynb')
 
 #Plugins
-PLUGIN_PATHS = ['/home/savvas-mint/repos/blog_env/pelican-plugins']
+PLUGIN_PATHS = ['/home/savvas/repos/blog_env/pelican-plugins']
 PLUGINS = ['ipynb.markup', 
             'liquid_tags.img', 
             'liquid_tags.video',
